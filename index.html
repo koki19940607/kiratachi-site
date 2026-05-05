@@ -77,39 +77,6 @@
     .hero {
       overflow: hidden;
     }
-    .hero-top {
-      padding: 18px 16px 12px;
-      background:
-        linear-gradient(135deg, rgba(228,109,58,0.12), rgba(243,177,95,0.18)),
-        linear-gradient(180deg, #fff, #fff8f1);
-      border-bottom: 1px solid rgba(234,216,200,0.95);
-    }
-    .hero-kicker {
-      font-size: 12px;
-      color: #9a5f2c;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .hero-copy {
-      font-size: 18px;
-      line-height: 1.5;
-      margin: 0;
-    }
-    .hero-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-    .hero-badge {
-      font-size: 12px;
-      font-weight: 700;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(228,109,58,0.16);
-      border-radius: 999px;
-      padding: 7px 10px;
-      color: #7a5333;
-    }
     .hero-body { padding: 14px; }
     .button-grid {
       display: grid;
@@ -148,29 +115,6 @@
       color: var(--sub);
       margin-top: 12px;
       line-height: 1.6;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .stat {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 12px;
-      text-align: center;
-    }
-    .stat strong {
-      display: block;
-      font-size: 20px;
-      margin-bottom: 4px;
-    }
-    .stat span {
-      color: var(--sub);
-      font-size: 11px;
-      line-height: 1.4;
     }
     .section-title {
       display: flex;
@@ -334,22 +278,12 @@
 <body>
   <div class="app">
     <header>
-      <div class="eyebrow">🍚 キラキラ橘商店街 / 夕飯さがしモック v2</div>
       <h1>今夜の夕飯、<br>商店街で気持ちよく選ぶ</h1>
-      <p class="lead">夕飯のおかずや持ち帰りごはんを、スマホでさっと探せる見せ方に整えた第2版モックです。まずは「今やってる」「どんなおかずがある」が伝わることを優先しています。</p>
+      <p class="lead">キラキラ橘商店街で、夕飯のおかずや持ち帰りごはんをスマホから探せるモックです。</p>
     </header>
 
     <section class="section">
       <div class="hero">
-        <div class="hero-top">
-          <div class="hero-kicker">今日の入口</div>
-          <p class="hero-copy"><strong>2〜3タップで、今夜の夕飯候補にたどり着く</strong> を目指した画面です。</p>
-          <div class="hero-meta">
-            <span class="hero-badge">営業中候補を強調</span>
-            <span class="hero-badge">スマホ片手で見やすく</span>
-            <span class="hero-badge">地図導線あり</span>
-          </div>
-        </div>
         <div class="hero-body">
           <div class="button-grid">
             <button class="primary" onclick="filterOpenNow()">
@@ -368,11 +302,6 @@
               <span class="button-title">ランダム</span>
               <span class="button-note">今夜の1店をおまかせ</span>
             </button>
-          </div>
-          <div class="stats">
-            <div class="stat"><strong id="totalCount">18</strong><span>掲載中の店舗数</span></div>
-            <div class="stat"><strong id="openCount">10</strong><span>営業中候補</span></div>
-            <div class="stat"><strong>夕飯向け</strong><span>すぐ探せる構成</span></div>
           </div>
           <div class="notice">※ 営業時間・定休日には要確認情報を含みます。公開前に最終確認が必要です。</div>
         </div>
@@ -461,8 +390,6 @@
     const genrePills = document.getElementById('genrePills');
     const shopList = document.getElementById('shopList');
     const resultCount = document.getElementById('resultCount');
-    const totalCount = document.getElementById('totalCount');
-    const openCount = document.getElementById('openCount');
 
     function genres() { return ['すべて', ...new Set(shops.map(s => s.genre))]; }
 
@@ -487,11 +414,6 @@
         const byOpen = !openOnly || shop.status === 'open';
         return byGenre && byOpen;
       });
-    }
-
-    function renderCounts() {
-      totalCount.textContent = shops.length;
-      openCount.textContent = shops.filter(shop => shop.status === 'open').length;
     }
 
     function renderShops() {
@@ -539,7 +461,6 @@
     }
 
     renderGenres();
-    renderCounts();
     renderShops();
   </script>
 </body>
