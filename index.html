@@ -478,15 +478,19 @@
       return Number(match[1]) * 60 + Number(match[2]);
     }
 
-    function parseTimeRanges(hours) {
+    function parseTimeRanges(hours, now = new Date()) {
       if (!hours || hours.includes('調査中')) return [];
+      const today = weekdayMap[now.getDay()];
       return hours
         .split('/')
         .map(part => part.trim())
         .map(part => {
-          const match = part.match(/(\d{1,2}:\d{2})\s*〜\s*(\d{1,2}:\d{2})/);
+          const match = part.match(/^(?:(月|火|水|木|金|土|日)(?:・(月|火|水|木|金|土|日))*(?:\s+))?(\d{1,2}:\d{2})\s*〜\s*(\d{1,2}:\d{2})/);
           if (!match) return null;
-          return { start: normalizeTime(match[1]), end: normalizeTime(match[2]) };
+          const weekdayPrefix = part.match(/^(.*?)(\d{1,2}:\d{2})/);
+          const weekdayText = weekdayPrefix ? weekdayPrefix[1].trim() : '';
+          if (weekdayText && !weekdayText.includes(today)) return null;
+          return { start: normalizeTime(match[3]), end: normalizeTime(match[4]) };
         })
         .filter(Boolean);
     }
@@ -498,7 +502,7 @@
     }
 
     function getShopState(shop, now = new Date()) {
-      const ranges = parseTimeRanges(shop.hours);
+      const ranges = parseTimeRanges(shop.hours, now);
       if (!ranges.length) return { key: 'maybe', label: '要確認' };
       if (isClosedToday(shop.closed, now)) return { key: 'closed', label: '営業時間外' };
       const currentMinutes = now.getHours() * 60 + now.getMinutes();
