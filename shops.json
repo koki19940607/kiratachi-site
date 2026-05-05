@@ -1,0 +1,245 @@
+[
+  {
+    "name": "たこ焼き千丸",
+    "genre": "たこ焼き",
+    "rec": "たこ焼き",
+    "hours": "12:00〜19:30",
+    "closed": "火・水",
+    "note": "営業時間に差分情報あり、要確認",
+    "map": "https://maps.app.goo.gl/HtrfkoySc7DVEsFt7?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "すぐ食べられる",
+      "持ち帰り向き"
+    ]
+  },
+  {
+    "name": "多ぬ喜寿司",
+    "genre": "寿司",
+    "rec": "寿司",
+    "hours": "11:00〜21:00",
+    "closed": "火",
+    "note": "詳細おすすめメニュー未確認",
+    "map": "https://maps.app.goo.gl/iU2HVcwuTY4CEBik6?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "夕飯向き",
+      "しっかりごはん"
+    ]
+  },
+  {
+    "name": "鳥正 京島店",
+    "genre": "惣菜",
+    "rec": "焼き鳥・惣菜",
+    "hours": "11:00〜19:30",
+    "closed": "日",
+    "note": "テイクアウト向き候補",
+    "map": "https://maps.app.goo.gl/aSzvL8q12fhia2KF7?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "おかず向き",
+      "持ち帰り向き"
+    ]
+  },
+  {
+    "name": "ベーカリー チャウチャウ",
+    "genre": "パン",
+    "rec": "パン",
+    "hours": "10:00〜18:00",
+    "closed": "日・月・木",
+    "note": "公式サイトあり",
+    "map": "https://maps.app.goo.gl/7W77WdsqaXsjMz827?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "軽めの夕飯",
+      "翌朝にも"
+    ]
+  },
+  {
+    "name": "餃子 美吉",
+    "genre": "惣菜",
+    "rec": "焼き餃子 / 生餃子",
+    "hours": "9:00〜17:00",
+    "closed": "火",
+    "note": "テイクアウト専門。メンマ人気",
+    "map": "https://maps.app.goo.gl/1A2UouscK2mb5egF9?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "おかず向き",
+      "持ち帰り向き"
+    ]
+  },
+  {
+    "name": "デリカショプ くるみ",
+    "genre": "惣菜",
+    "rec": "惣菜",
+    "hours": "10:00〜19:00",
+    "closed": "日",
+    "note": "店名表記は要確認",
+    "map": "https://maps.app.goo.gl/b9e8THuL1QzeGYPN7?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "おかず向き",
+      "家族向け"
+    ]
+  },
+  {
+    "name": "こんこん",
+    "genre": "飲食",
+    "rec": "未確認",
+    "hours": "11:00〜19:00",
+    "closed": "月",
+    "note": "ジャンル・おすすめ要確認",
+    "map": "https://maps.app.goo.gl/uFHfaz4CfgawHwG66?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "要追加調査"
+    ]
+  },
+  {
+    "name": "テイクアウト専門店 甲州天山 曳舟店",
+    "genre": "テイクアウト",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/CP6EFA6GgudMN1xm6?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "三善豆腐工房 キラキラ橘店 東京",
+    "genre": "豆腐",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/3cKwVeDLZHwsJfc57?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "ハト屋パン店",
+    "genre": "パン",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/fDnJbBH4tLBQqqac8?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "大国屋蒲鉾店",
+    "genre": "惣菜",
+    "rec": "蒲鉾・おでん種",
+    "hours": "10:00〜19:30",
+    "closed": "日",
+    "note": "夕飯おかず向け候補",
+    "map": "https://maps.app.goo.gl/wsNim2nGWP7gDNAz7?g_st=ic",
+    "area": "中央あたり",
+    "tags": [
+      "おかず向き",
+      "家族向け"
+    ]
+  },
+  {
+    "name": "魚屋やまちゃん",
+    "genre": "魚",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/TvPYK98SpnNW8hA78?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "平成福順",
+    "genre": "飲食",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/CXTvToKxVqtKTxy17?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "喫茶と食事 50BAN 京島店",
+    "genre": "定食",
+    "rec": "定食・喫茶",
+    "hours": "11:30〜14:00 / 17:00〜20:00",
+    "closed": "日・祝",
+    "note": "ランチ・夕食対応",
+    "map": "https://maps.app.goo.gl/z3zXaAEu3WYGto117?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "しっかりごはん",
+      "店内利用向き"
+    ]
+  },
+  {
+    "name": "きくのや",
+    "genre": "調査中",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/P1wiNy6tnPu7Ph6B8?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "ふくのや",
+    "genre": "調査中",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/hPkrWdqSHbWx7zHLA?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "鮒忠 京島",
+    "genre": "調査中",
+    "rec": "調査中",
+    "hours": "調査中",
+    "closed": "調査中",
+    "note": "再調査待ち",
+    "map": "https://maps.app.goo.gl/42FVpDoqg3Jy7JJ58?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "要確認"
+    ]
+  },
+  {
+    "name": "こばち屋",
+    "genre": "惣菜",
+    "rec": "惣菜",
+    "hours": "11:00〜18:30",
+    "closed": "日",
+    "note": "来店前確認推奨",
+    "map": "https://maps.app.goo.gl/x6DJai3JXNWw3pPu8?g_st=ic",
+    "area": "奥のほう",
+    "tags": [
+      "おかず向き",
+      "持ち帰り向き"
+    ]
+  }
+]
