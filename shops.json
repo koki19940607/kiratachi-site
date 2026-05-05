@@ -167,14 +167,15 @@
   },
   {
     "name": "平成福順",
-    "genre": "飲食",
-    "rec": "調査中",
-    "hours": "調査中",
-    "closed": "調査中",
-    "note": "再調査待ち",
+    "genre": "中華・惣菜",
+    "rec": "中華惣菜・持ち帰り向けメニュー",
+    "hours": "13:00〜18:00",
+    "closed": "不定休",
+    "note": "営業日はInstagram告知ベースとの公開情報あり。週3日程度営業の情報もあり、要確認",
     "map": "https://maps.app.goo.gl/CXTvToKxVqtKTxy17?g_st=ic",
     "area": "奥のほう",
     "tags": [
+      "持ち帰り向き",
       "要確認"
     ]
   },
@@ -194,41 +195,45 @@
   },
   {
     "name": "きくのや",
-    "genre": "調査中",
-    "rec": "調査中",
-    "hours": "調査中",
-    "closed": "調査中",
-    "note": "再調査待ち",
+    "genre": "飲食・惣菜",
+    "rec": "店内飲食・惣菜系メニュー",
+    "hours": "15:00〜19:00",
+    "closed": "水・木",
+    "note": "月・火・金・土・日営業の公開情報あり。営業時間変更の可能性があるため要確認",
     "map": "https://maps.app.goo.gl/P1wiNy6tnPu7Ph6B8?g_st=ic",
     "area": "奥のほう",
     "tags": [
+      "夕飯向き",
       "要確認"
     ]
   },
   {
     "name": "ふくのや",
-    "genre": "調査中",
-    "rec": "調査中",
-    "hours": "調査中",
-    "closed": "調査中",
-    "note": "再調査待ち",
+    "genre": "惣菜・もつ煮込み",
+    "rec": "牛もつ煮込み",
+    "hours": "13:00〜18:00",
+    "closed": "日〜水",
+    "note": "木・金・土営業の公開情報あり。8月は夏季休業の可能性あり、要確認",
     "map": "https://maps.app.goo.gl/hPkrWdqSHbWx7zHLA?g_st=ic",
     "area": "奥のほう",
     "tags": [
+      "おかず向き",
+      "持ち帰り向き",
       "要確認"
     ]
   },
   {
     "name": "鮒忠 京島",
-    "genre": "調査中",
-    "rec": "調査中",
-    "hours": "調査中",
-    "closed": "調査中",
-    "note": "再調査待ち",
+    "genre": "焼き鳥・惣菜",
+    "rec": "焼き鳥・串もの・惣菜",
+    "hours": "11:00〜20:00",
+    "closed": "日",
+    "note": "品切れ次第終了の可能性あり。来店前確認推奨",
     "map": "https://maps.app.goo.gl/42FVpDoqg3Jy7JJ58?g_st=ic",
     "area": "奥のほう",
     "tags": [
-      "要確認"
+      "夕飯向き",
+      "持ち帰り向き"
     ]
   },
   {
