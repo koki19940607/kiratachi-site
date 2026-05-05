@@ -287,8 +287,8 @@
         <div class="hero-body">
           <div class="button-grid">
             <button class="primary" onclick="filterOpenNow()">
-              <span class="button-title">今やってるお店から探す</span>
-              <span class="button-note">現在時刻で営業中の店を表示</span>
+              <span class="button-title">営業中のお店のみ表示中</span>
+              <span class="button-note">もう一度押すと全件に戻る</span>
             </button>
             <button onclick="scrollToGenres()">
               <span class="button-title">ジャンルから探す</span>
@@ -386,7 +386,7 @@
     ];
 
     let currentGenre = 'すべて';
-    let openOnly = false;
+    let openOnly = true;
     const genrePills = document.getElementById('genrePills');
     const shopList = document.getElementById('shopList');
     const resultCount = document.getElementById('resultCount');
