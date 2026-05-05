@@ -656,10 +656,21 @@
       alert(`今日の1店\n\n${shop.name}\nジャンル: ${shop.genre}\nおすすめ: ${shop.rec}\n営業時間: ${shop.hours}`);
     }
 
-    renderGenres();
-    renderQuickFilters();
-    updateOpenToggleUI();
-    renderShops();
+    async function init() {
+      try {
+        await loadShops();
+        renderGenres();
+        renderQuickFilters();
+        updateOpenToggleUI();
+        renderShops();
+      } catch (error) {
+        resultCount.textContent = '読込失敗';
+        shopList.innerHTML = '<div class="card empty-state"><h3>店舗データを読み込めませんでした</h3><p>時間をおいて再読み込みしてください。問題が続く場合は shops.json を確認します。</p></div>';
+        console.error(error);
+      }
+    }
+
+    init();
   </script>
 </body>
 </html>
