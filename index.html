@@ -78,6 +78,61 @@
       overflow: hidden;
     }
     .hero-body { padding: 14px; }
+    .toggle-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      margin-bottom: 12px;
+      border-radius: 18px;
+      border: 1px solid #f0dac7;
+      background: linear-gradient(180deg, #fffaf4, #fff4e7);
+    }
+    .toggle-copy {
+      min-width: 0;
+    }
+    .toggle-title {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .toggle-note {
+      display: block;
+      font-size: 12px;
+      color: var(--sub);
+      line-height: 1.4;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 56px;
+      height: 32px;
+      border: none;
+      border-radius: 999px;
+      background: #d9d2c9;
+      cursor: pointer;
+      flex: 0 0 auto;
+      transition: background 0.2s ease;
+    }
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: transform 0.2s ease;
+    }
+    .toggle-switch.on {
+      background: linear-gradient(135deg, var(--accent), #d85e2d);
+    }
+    .toggle-switch.on::after {
+      transform: translateX(24px);
+    }
     .button-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -170,6 +225,26 @@
       background: var(--chip);
       border: 1px solid #eed7c0;
       color: #6a5646;
+    }
+    .empty-state {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,248,241,0.96));
+    }
+    .empty-state h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .empty-state p {
+      margin: 0;
+      color: var(--sub);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .empty-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
     }
     .shop-list { display: grid; gap: 12px; }
     .shop-card {
@@ -285,11 +360,14 @@
     <section class="section">
       <div class="hero">
         <div class="hero-body">
+          <div class="toggle-card">
+            <div class="toggle-copy">
+              <span class="toggle-title" id="openToggleTitle">営業中のお店のみ表示中</span>
+              <span class="toggle-note" id="openToggleNote">スイッチをオフにすると、営業時間外のお店も見られます。</span>
+            </div>
+            <button class="toggle-switch on" id="openToggleSwitch" onclick="filterOpenNow()" aria-pressed="true" aria-label="営業中のお店だけ表示"></button>
+          </div>
           <div class="button-grid">
-            <button class="primary" onclick="filterOpenNow()">
-              <span class="button-title">営業中のお店のみ表示中</span>
-              <span class="button-note">もう一度押すと全件に戻る</span>
-            </button>
             <button onclick="scrollToGenres()">
               <span class="button-title">ジャンルから探す</span>
               <span class="button-note">寿司・惣菜・パンなど</span>
@@ -390,6 +468,9 @@
     const genrePills = document.getElementById('genrePills');
     const shopList = document.getElementById('shopList');
     const resultCount = document.getElementById('resultCount');
+    const openToggleTitle = document.getElementById('openToggleTitle');
+    const openToggleNote = document.getElementById('openToggleNote');
+    const openToggleSwitch = document.getElementById('openToggleSwitch');
 
     const weekdayMap = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -458,10 +539,31 @@
       });
     }
 
+    function updateOpenToggleUI() {
+      openToggleTitle.textContent = openOnly ? '営業中のお店のみ表示中' : 'すべてのお店を表示中';
+      openToggleNote.textContent = openOnly
+        ? 'スイッチをオフにすると、営業時間外のお店も見られます。'
+        : 'スイッチをオンにすると、今やっているお店だけに絞り込みます。';
+      openToggleSwitch.classList.toggle('on', openOnly);
+      openToggleSwitch.setAttribute('aria-pressed', String(openOnly));
+    }
+
     function renderShops() {
       const items = filteredShops();
       resultCount.textContent = items.length + '件';
       shopList.innerHTML = '';
+
+      if (!items.length) {
+        shopList.innerHTML = `
+          <div class="card empty-state">
+            <h3>現在営業中のお店はありません</h3>
+            <p>いまの時刻では営業中のお店が見つかりませんでした。営業時間外のお店も表示すると、あとで行ける候補を確認できます。</p>
+            <div class="empty-actions">
+              <button class="mini" onclick="showAllShops()">営業時間外のお店も見る</button>
+            </div>
+          </div>`;
+        return;
+      }
 
       items.forEach(shop => {
         const div = document.createElement('div');
@@ -489,8 +591,13 @@
 
     function filterOpenNow() {
       openOnly = !openOnly;
-      document.querySelector('.primary .button-title').textContent = openOnly ? '営業中のお店のみ表示中' : '今やってるお店から探す';
-      document.querySelector('.primary .button-note').textContent = openOnly ? 'もう一度押すと全件に戻る' : '現在時刻で営業中の店を表示';
+      updateOpenToggleUI();
+      renderShops();
+    }
+
+    function showAllShops() {
+      openOnly = false;
+      updateOpenToggleUI();
       renderShops();
     }
 
@@ -504,6 +611,7 @@
     }
 
     renderGenres();
+    updateOpenToggleUI();
     renderShops();
   </script>
 </body>
