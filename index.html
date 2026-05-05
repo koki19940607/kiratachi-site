@@ -6,134 +6,481 @@
   <title>キラキラ橘商店街 | 今夜の夕飯をすぐ探せる</title>
   <style>
     :root {
-      --bg: #fffaf4;
-      --card: #ffffff;
-      --text: #2f2a26;
-      --sub: #6f655d;
-      --accent: #e86f3d;
-      --line: #eadfd6;
-      --ok: #2f9e44;
-      --warn: #c77d00;
-      --shadow: 0 10px 25px rgba(70, 42, 20, 0.08);
+      --bg: #f8f2ea;
+      --paper: #fffdf9;
+      --card: rgba(255,255,255,0.92);
+      --text: #2d2621;
+      --sub: #6b625a;
+      --accent: #e46d3a;
+      --accent-2: #f3b15f;
+      --line: #ead8c8;
+      --open-bg: #e8f7ea;
+      --open-text: #217a39;
+      --check-bg: #fff4df;
+      --check-text: #a56600;
+      --chip: #f7ecdf;
+      --shadow: 0 18px 40px rgba(84, 48, 21, 0.08);
+      --radius: 20px;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
-    .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: linear-gradient(180deg, #fff5ea 0%, #fffaf4 180px); padding-bottom: 32px; }
-    header { padding: 20px 16px 12px; }
-    .eyebrow { font-size: 12px; color: var(--sub); margin-bottom: 8px; }
-    h1 { margin: 0; font-size: 28px; line-height: 1.25; }
-    .lead { margin: 10px 0 0; color: var(--sub); font-size: 14px; line-height: 1.6; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(243, 177, 95, 0.2), transparent 28%),
+        linear-gradient(180deg, #fff6ec 0px, var(--bg) 260px);
+      color: var(--text);
+    }
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 0 0 32px;
+    }
+    header {
+      padding: 22px 16px 10px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #8b5e35;
+      background: rgba(255,255,255,0.65);
+      border: 1px solid rgba(228,109,58,0.15);
+      border-radius: 999px;
+      padding: 8px 12px;
+      backdrop-filter: blur(6px);
+    }
+    h1 {
+      margin: 14px 0 0;
+      font-size: 31px;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+    }
+    .lead {
+      margin: 12px 0 0;
+      color: var(--sub);
+      font-size: 14px;
+      line-height: 1.7;
+    }
     .section { padding: 12px 16px; }
-    .hero-card, .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
-    .hero-card { padding: 14px; }
-    .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
-    button, .link-btn { border: none; border-radius: 14px; padding: 14px 12px; font-size: 14px; font-weight: 700; text-align: left; cursor: pointer; background: #fff4e8; color: var(--text); border: 1px solid #f2d8c1; }
-    .primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .section-title { display: flex; align-items: center; justify-content: space-between; margin: 8px 0 10px; }
-    .section-title h2 { margin: 0; font-size: 18px; }
-    .pill-row, .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
-    .pill, .chip { white-space: nowrap; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 9px 12px; font-size: 13px; cursor: pointer; }
-    .pill.active, .chip.active { background: #2f2a26; color: #fff; border-color: #2f2a26; }
+    .hero, .card {
+      background: var(--card);
+      border: 1px solid rgba(234,216,200,0.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .hero {
+      overflow: hidden;
+    }
+    .hero-top {
+      padding: 18px 16px 12px;
+      background:
+        linear-gradient(135deg, rgba(228,109,58,0.12), rgba(243,177,95,0.18)),
+        linear-gradient(180deg, #fff, #fff8f1);
+      border-bottom: 1px solid rgba(234,216,200,0.95);
+    }
+    .hero-kicker {
+      font-size: 12px;
+      color: #9a5f2c;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .hero-copy {
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .hero-badge {
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(228,109,58,0.16);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #7a5333;
+    }
+    .hero-body { padding: 14px; }
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    button, .link-btn {
+      border: none;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-size: 14px;
+      font-weight: 800;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text);
+      background: #fff7ef;
+      border: 1px solid #f0dac7;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .button-title { display: block; margin-bottom: 4px; }
+    .button-note {
+      display: block;
+      font-size: 11px;
+      color: var(--sub);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #d85e2d);
+      color: #fff;
+      border-color: transparent;
+    }
+    .primary .button-note { color: rgba(255,255,255,0.86); }
+    .notice {
+      font-size: 12px;
+      color: var(--sub);
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .stat {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    .stat span {
+      color: var(--sub);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 8px 0 10px;
+    }
+    .section-title h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .section-sub {
+      color: var(--sub);
+      font-size: 12px;
+    }
+    .pill-row, .chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .pill-row::-webkit-scrollbar, .chips::-webkit-scrollbar { display: none; }
+    .pill, .chip {
+      white-space: nowrap;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 10px 13px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .pill.active, .chip.active {
+      background: #2f2822;
+      color: #fff;
+      border-color: #2f2822;
+    }
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-top: 10px;
+      scrollbar-width: none;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .quick-chip {
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--chip);
+      border: 1px solid #eed7c0;
+      color: #6a5646;
+    }
     .shop-list { display: grid; gap: 12px; }
-    .shop-card { padding: 14px; }
-    .shop-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
-    .shop-name { margin: 0 0 4px; font-size: 17px; }
-    .meta, .shop-copy, .shop-note { color: var(--sub); font-size: 13px; line-height: 1.5; }
-    .status { border-radius: 999px; padding: 7px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-    .open { background: #ebfbee; color: var(--ok); }
-    .maybe { background: #fff8e1; color: var(--warn); }
-    .shop-copy { margin: 10px 0 8px; }
-    .shop-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .shop-card {
+      padding: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,251,246,0.96));
+    }
+    .shop-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+    .shop-name {
+      margin: 0 0 4px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+    .meta, .shop-copy, .shop-note {
+      color: var(--sub);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .status {
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+    .open { background: var(--open-bg); color: var(--open-text); }
+    .maybe { background: var(--check-bg); color: var(--check-text); }
+    .shop-copy {
+      margin: 12px 0 10px;
+      color: var(--text);
+    }
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: #725f51;
+    }
+    .shop-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
     .shop-actions a { text-decoration: none; color: inherit; }
-    .mini { padding: 10px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--line); font-size: 13px; font-weight: 600; }
-    .notice { font-size: 12px; color: var(--sub); margin-top: 10px; line-height: 1.5; }
+    .mini {
+      padding: 11px 12px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 700;
+    }
     .map-card { padding: 14px; }
-    .map-box { background: linear-gradient(135deg, #fff4d7, #ffe7d1); border: 1px dashed #e4b677; border-radius: 16px; min-height: 180px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; }
-    .footer { padding: 8px 16px 24px; color: var(--sub); font-size: 12px; }
+    .map-box {
+      background: linear-gradient(135deg, #fff1dc, #ffe8d2 65%, #fff7ee);
+      border: 1px dashed #e6b57a;
+      border-radius: 18px;
+      min-height: 190px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .map-mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .map-mini {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(230,181,122,0.55);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 12px;
+      color: #78573d;
+      line-height: 1.5;
+    }
+    .footer {
+      padding: 12px 16px 28px;
+      color: var(--sub);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    @media (max-width: 360px) {
+      h1 { font-size: 28px; }
+      .button-grid, .stats, .map-mini-grid { grid-template-columns: 1fr; }
+      .status { white-space: normal; }
+    }
   </style>
 </head>
 <body>
   <div class="app">
     <header>
-      <div class="eyebrow">キラキラ橘商店街 モック</div>
-      <h1>今夜の夕飯、<br>商店街でさっと探す</h1>
-      <p class="lead">スマホで2〜3タップで、今やっているお店・ジャンル・場所から夕飯を探せる想定の試作画面です。</p>
+      <div class="eyebrow">🍚 キラキラ橘商店街 / 夕飯さがしモック v2</div>
+      <h1>今夜の夕飯、<br>商店街で気持ちよく選ぶ</h1>
+      <p class="lead">夕飯のおかずや持ち帰りごはんを、スマホでさっと探せる見せ方に整えた第2版モックです。まずは「今やってる」「どんなおかずがある」が伝わることを優先しています。</p>
     </header>
+
     <section class="section">
-      <div class="hero-card">
-        <strong>探し方を選ぶ</strong>
-        <div class="button-grid">
-          <button class="primary" onclick="filterOpenNow()">今やってるお店から探す</button>
-          <button onclick="scrollToGenres()">ジャンルから探す</button>
-          <button onclick="scrollToMap()">商店街マップから探す</button>
-          <button onclick="pickRandom()">ランダム</button>
+      <div class="hero">
+        <div class="hero-top">
+          <div class="hero-kicker">今日の入口</div>
+          <p class="hero-copy"><strong>2〜3タップで、今夜の夕飯候補にたどり着く</strong> を目指した画面です。</p>
+          <div class="hero-meta">
+            <span class="hero-badge">営業中候補を強調</span>
+            <span class="hero-badge">スマホ片手で見やすく</span>
+            <span class="hero-badge">地図導線あり</span>
+          </div>
         </div>
-        <div class="notice">※ 営業中判定はモックです。公開時は曜日・時間の正確な確認が必要です。</div>
+        <div class="hero-body">
+          <div class="button-grid">
+            <button class="primary" onclick="filterOpenNow()">
+              <span class="button-title">今やってるお店から探す</span>
+              <span class="button-note">営業中候補だけを絞り込み</span>
+            </button>
+            <button onclick="scrollToGenres()">
+              <span class="button-title">ジャンルから探す</span>
+              <span class="button-note">寿司・惣菜・パンなど</span>
+            </button>
+            <button onclick="scrollToMap()">
+              <span class="button-title">商店街マップから探す</span>
+              <span class="button-note">入口・中央・奥の位置感で見る</span>
+            </button>
+            <button onclick="pickRandom()">
+              <span class="button-title">ランダム</span>
+              <span class="button-note">今夜の1店をおまかせ</span>
+            </button>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong id="totalCount">18</strong><span>掲載中の店舗数</span></div>
+            <div class="stat"><strong id="openCount">10</strong><span>営業中候補</span></div>
+            <div class="stat"><strong>夕飯向け</strong><span>すぐ探せる構成</span></div>
+          </div>
+          <div class="notice">※ 営業時間・定休日には要確認情報を含みます。公開前に最終確認が必要です。</div>
+        </div>
       </div>
     </section>
+
     <section class="section" id="genres">
-      <div class="section-title"><h2>ジャンルで絞る</h2></div>
+      <div class="section-title">
+        <div>
+          <h2>ジャンルで絞る</h2>
+          <div class="section-sub">夕飯のイメージに近いものから探す</div>
+        </div>
+      </div>
       <div class="pill-row" id="genrePills"></div>
+      <div class="filter-row">
+        <div class="quick-chip">惣菜で1品足したい</div>
+        <div class="quick-chip">家に持ち帰りたい</div>
+        <div class="quick-chip">商店街を歩きながら選びたい</div>
+      </div>
     </section>
+
     <section class="section">
-      <div class="section-title"><h2>店舗一覧</h2><span class="meta" id="resultCount"></span></div>
+      <div class="section-title">
+        <div>
+          <h2>店舗一覧</h2>
+          <div class="section-sub">今夜の候補になりそうなお店</div>
+        </div>
+        <span class="meta" id="resultCount"></span>
+      </div>
       <div class="shop-list" id="shopList"></div>
     </section>
+
     <section class="section" id="mapSection">
-      <div class="section-title"><h2>商店街マップ（モック）</h2></div>
+      <div class="section-title">
+        <div>
+          <h2>商店街マップ（モック）</h2>
+          <div class="section-sub">位置感から回りやすい順で探す想定</div>
+        </div>
+      </div>
       <div class="card map-card">
         <div class="map-box">
           <div>
-            <strong>商店街のどこにあるか見る</strong>
-            <p class="lead" style="margin-top:8px;">本番では商店街マップ画像やGoogleマップ連携を想定。今は各店舗カードの「地図を見る」から外部マップへ遷移します。</p>
+            <strong>商店街のどこにあるか、ざっくり把握する</strong>
+            <p class="lead" style="margin-top:8px;">本番では商店街マップ画像や、店の位置ピン、回遊しやすい導線を入れる想定です。今は各カードの「地図を見る」から外部マップへ移動します。</p>
           </div>
-          <div class="chips">
-            <span class="chip">入口付近</span>
-            <span class="chip">中央あたり</span>
-            <span class="chip">奥のほう</span>
+          <div class="map-mini-grid">
+            <div class="map-mini"><strong>入口付近</strong><br>最初に立ち寄りやすいゾーン</div>
+            <div class="map-mini"><strong>中央あたり</strong><br>惣菜やパンを見比べやすいゾーン</div>
+            <div class="map-mini"><strong>奥のほう</strong><br>食事系や掘り出し候補を見るゾーン</div>
+            <div class="map-mini"><strong>次の改善候補</strong><br>地図画像・現在地導線・回遊提案</div>
           </div>
         </div>
       </div>
     </section>
-    <div class="footer">GitHub Pages向けモック版 / データは過去メモをもとにした暫定値を含みます。</div>
+
+    <div class="footer">
+      現行版は <code>index-v1.html</code> として保存済みです。<br>
+      このページは見た目改善を優先した第2版モックです。
+    </div>
   </div>
+
   <script>
     const shops = [
-      { name: 'たこ焼き千丸', genre: 'たこ焼き', rec: 'たこ焼き', hours: '12:00〜19:30', closed: '火・水', note: '営業時間に差分情報あり、要確認', map: 'https://maps.app.goo.gl/HtrfkoySc7DVEsFt7?g_st=ic', status: 'open', area: '中央あたり' },
-      { name: '多ぬ喜寿司', genre: '寿司', rec: '寿司', hours: '11:00〜21:00', closed: '火', note: '詳細おすすめメニュー未確認', map: 'https://maps.app.goo.gl/iU2HVcwuTY4CEBik6?g_st=ic', status: 'open', area: '中央あたり' },
-      { name: '鳥正 京島店', genre: '惣菜', rec: '焼き鳥・惣菜', hours: '11:00〜19:30', closed: '日', note: 'テイクアウト向き候補', map: 'https://maps.app.goo.gl/aSzvL8q12fhia2KF7?g_st=ic', status: 'open', area: '中央あたり' },
-      { name: 'ベーカリー チャウチャウ', genre: 'パン', rec: 'パン', hours: '10:00〜18:00', closed: '日・月・木', note: '公式サイトあり', map: 'https://maps.app.goo.gl/7W77WdsqaXsjMz827?g_st=ic', status: 'open', area: '中央あたり' },
-      { name: '餃子 美吉', genre: '惣菜', rec: '焼き餃子 / 生餃子', hours: '9:00〜17:00', closed: '火', note: 'テイクアウト専門。メンマ人気', map: 'https://maps.app.goo.gl/1A2UouscK2mb5egF9?g_st=ic', status: 'open', area: '中央あたり' },
-      { name: 'デリカショプ くるみ', genre: '惣菜', rec: '惣菜', hours: '10:00〜19:00', closed: '日', note: '店名表記は要確認', map: 'https://maps.app.goo.gl/b9e8THuL1QzeGYPN7?g_st=ic', status: 'open', area: '中央あたり' },
-      { name: 'こんこん', genre: '飲食', rec: '未確認', hours: '11:00〜19:00', closed: '月', note: 'ジャンル・おすすめ要確認', map: 'https://maps.app.goo.gl/uFHfaz4CfgawHwG66?g_st=ic', status: 'open', area: '奥のほう' },
-      { name: 'テイクアウト専門店 甲州天山 曳舟店', genre: 'テイクアウト', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/CP6EFA6GgudMN1xm6?g_st=ic', status: 'maybe', area: '奥のほう' },
-      { name: '三善豆腐工房 キラキラ橘店 東京', genre: '豆腐', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/3cKwVeDLZHwsJfc57?g_st=ic', status: 'maybe', area: '中央あたり' },
-      { name: 'ハト屋パン店', genre: 'パン', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/fDnJbBH4tLBQqqac8?g_st=ic', status: 'maybe', area: '中央あたり' },
-      { name: '大国屋蒲鉾店', genre: '惣菜', rec: '蒲鉾・おでん種', hours: '10:00〜19:30', closed: '日', note: '夕飯おかず向け候補', map: 'https://maps.app.goo.gl/wsNim2nGWP7gDNAz7?g_st=ic', status: 'open', area: '中央あたり' },
-      { name: '魚屋やまちゃん', genre: '魚', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/TvPYK98SpnNW8hA78?g_st=ic', status: 'maybe', area: '奥のほう' },
-      { name: '平成福順', genre: '飲食', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/CXTvToKxVqtKTxy17?g_st=ic', status: 'maybe', area: '奥のほう' },
-      { name: '喫茶と食事 50BAN 京島店', genre: '定食', rec: '定食・喫茶', hours: '11:30〜14:00 / 17:00〜20:00', closed: '日・祝', note: 'ランチ・夕食対応', map: 'https://maps.app.goo.gl/z3zXaAEu3WYGto117?g_st=ic', status: 'open', area: '奥のほう' },
-      { name: 'きくのや', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/P1wiNy6tnPu7Ph6B8?g_st=ic', status: 'maybe', area: '奥のほう' },
-      { name: 'ふくのや', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/hPkrWdqSHbWx7zHLA?g_st=ic', status: 'maybe', area: '奥のほう' },
-      { name: '鮒忠 京島', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/42FVpDoqg3Jy7JJ58?g_st=ic', status: 'maybe', area: '奥のほう' },
-      { name: 'こばち屋', genre: '惣菜', rec: '惣菜', hours: '11:00〜18:30', closed: '日', note: '来店前確認推奨', map: 'https://maps.app.goo.gl/x6DJai3JXNWw3pPu8?g_st=ic', status: 'open', area: '奥のほう' }
+      { name: 'たこ焼き千丸', genre: 'たこ焼き', rec: 'たこ焼き', hours: '12:00〜19:30', closed: '火・水', note: '営業時間に差分情報あり、要確認', map: 'https://maps.app.goo.gl/HtrfkoySc7DVEsFt7?g_st=ic', status: 'open', area: '中央あたり', tags: ['すぐ食べられる', '持ち帰り向き'] },
+      { name: '多ぬ喜寿司', genre: '寿司', rec: '寿司', hours: '11:00〜21:00', closed: '火', note: '詳細おすすめメニュー未確認', map: 'https://maps.app.goo.gl/iU2HVcwuTY4CEBik6?g_st=ic', status: 'open', area: '中央あたり', tags: ['夕飯向き', 'しっかりごはん'] },
+      { name: '鳥正 京島店', genre: '惣菜', rec: '焼き鳥・惣菜', hours: '11:00〜19:30', closed: '日', note: 'テイクアウト向き候補', map: 'https://maps.app.goo.gl/aSzvL8q12fhia2KF7?g_st=ic', status: 'open', area: '中央あたり', tags: ['おかず向き', '持ち帰り向き'] },
+      { name: 'ベーカリー チャウチャウ', genre: 'パン', rec: 'パン', hours: '10:00〜18:00', closed: '日・月・木', note: '公式サイトあり', map: 'https://maps.app.goo.gl/7W77WdsqaXsjMz827?g_st=ic', status: 'open', area: '中央あたり', tags: ['軽めの夕飯', '翌朝にも'] },
+      { name: '餃子 美吉', genre: '惣菜', rec: '焼き餃子 / 生餃子', hours: '9:00〜17:00', closed: '火', note: 'テイクアウト専門。メンマ人気', map: 'https://maps.app.goo.gl/1A2UouscK2mb5egF9?g_st=ic', status: 'open', area: '中央あたり', tags: ['おかず向き', '持ち帰り向き'] },
+      { name: 'デリカショプ くるみ', genre: '惣菜', rec: '惣菜', hours: '10:00〜19:00', closed: '日', note: '店名表記は要確認', map: 'https://maps.app.goo.gl/b9e8THuL1QzeGYPN7?g_st=ic', status: 'open', area: '中央あたり', tags: ['おかず向き', '家族向け'] },
+      { name: 'こんこん', genre: '飲食', rec: '未確認', hours: '11:00〜19:00', closed: '月', note: 'ジャンル・おすすめ要確認', map: 'https://maps.app.goo.gl/uFHfaz4CfgawHwG66?g_st=ic', status: 'open', area: '奥のほう', tags: ['要追加調査'] },
+      { name: 'テイクアウト専門店 甲州天山 曳舟店', genre: 'テイクアウト', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/CP6EFA6GgudMN1xm6?g_st=ic', status: 'maybe', area: '奥のほう', tags: ['要確認'] },
+      { name: '三善豆腐工房 キラキラ橘店 東京', genre: '豆腐', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/3cKwVeDLZHwsJfc57?g_st=ic', status: 'maybe', area: '中央あたり', tags: ['要確認'] },
+      { name: 'ハト屋パン店', genre: 'パン', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/fDnJbBH4tLBQqqac8?g_st=ic', status: 'maybe', area: '中央あたり', tags: ['要確認'] },
+      { name: '大国屋蒲鉾店', genre: '惣菜', rec: '蒲鉾・おでん種', hours: '10:00〜19:30', closed: '日', note: '夕飯おかず向け候補', map: 'https://maps.app.goo.gl/wsNim2nGWP7gDNAz7?g_st=ic', status: 'open', area: '中央あたり', tags: ['おかず向き', '家族向け'] },
+      { name: '魚屋やまちゃん', genre: '魚', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/TvPYK98SpnNW8hA78?g_st=ic', status: 'maybe', area: '奥のほう', tags: ['要確認'] },
+      { name: '平成福順', genre: '飲食', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/CXTvToKxVqtKTxy17?g_st=ic', status: 'maybe', area: '奥のほう', tags: ['要確認'] },
+      { name: '喫茶と食事 50BAN 京島店', genre: '定食', rec: '定食・喫茶', hours: '11:30〜14:00 / 17:00〜20:00', closed: '日・祝', note: 'ランチ・夕食対応', map: 'https://maps.app.goo.gl/z3zXaAEu3WYGto117?g_st=ic', status: 'open', area: '奥のほう', tags: ['しっかりごはん', '店内利用向き'] },
+      { name: 'きくのや', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/P1wiNy6tnPu7Ph6B8?g_st=ic', status: 'maybe', area: '奥のほう', tags: ['要確認'] },
+      { name: 'ふくのや', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/hPkrWdqSHbWx7zHLA?g_st=ic', status: 'maybe', area: '奥のほう', tags: ['要確認'] },
+      { name: '鮒忠 京島', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/42FVpDoqg3Jy7JJ58?g_st=ic', status: 'maybe', area: '奥のほう', tags: ['要確認'] },
+      { name: 'こばち屋', genre: '惣菜', rec: '惣菜', hours: '11:00〜18:30', closed: '日', note: '来店前確認推奨', map: 'https://maps.app.goo.gl/x6DJai3JXNWw3pPu8?g_st=ic', status: 'open', area: '奥のほう', tags: ['おかず向き', '持ち帰り向き'] }
     ];
+
     let currentGenre = 'すべて';
     let openOnly = false;
     const genrePills = document.getElementById('genrePills');
     const shopList = document.getElementById('shopList');
     const resultCount = document.getElementById('resultCount');
+    const totalCount = document.getElementById('totalCount');
+    const openCount = document.getElementById('openCount');
+
     function genres() { return ['すべて', ...new Set(shops.map(s => s.genre))]; }
+
     function renderGenres() {
       genrePills.innerHTML = '';
       genres().forEach(genre => {
         const btn = document.createElement('button');
         btn.className = 'pill' + (genre === currentGenre ? ' active' : '');
         btn.textContent = genre;
-        btn.onclick = () => { currentGenre = genre; renderGenres(); renderShops(); };
+        btn.onclick = () => {
+          currentGenre = genre;
+          renderGenres();
+          renderShops();
+        };
         genrePills.appendChild(btn);
       });
     }
+
     function filteredShops() {
       return shops.filter(shop => {
         const byGenre = currentGenre === 'すべて' || shop.genre === currentGenre;
@@ -141,19 +488,31 @@
         return byGenre && byOpen;
       });
     }
+
+    function renderCounts() {
+      totalCount.textContent = shops.length;
+      openCount.textContent = shops.filter(shop => shop.status === 'open').length;
+    }
+
     function renderShops() {
       const items = filteredShops();
       resultCount.textContent = items.length + '件';
       shopList.innerHTML = '';
+
       items.forEach(shop => {
         const div = document.createElement('div');
         div.className = 'card shop-card';
+        const tagHtml = (shop.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('');
         div.innerHTML = `
           <div class="shop-head">
-            <div><h3 class="shop-name">${shop.name}</h3><div class="meta">${shop.genre} ・ ${shop.area}</div></div>
+            <div>
+              <h3 class="shop-name">${shop.name}</h3>
+              <div class="meta">${shop.genre} ・ ${shop.area}</div>
+            </div>
             <div class="status ${shop.status === 'open' ? 'open' : 'maybe'}">${shop.status === 'open' ? '営業中候補' : '要確認'}</div>
           </div>
           <div class="shop-copy">おすすめ：${shop.rec}<br>営業時間：${shop.hours}<br>定休日：${shop.closed}</div>
+          <div class="tag-row">${tagHtml}</div>
           <div class="shop-note">${shop.note}</div>
           <div class="shop-actions">
             <a class="mini" href="${shop.map}" target="_blank" rel="noopener">地図を見る</a>
@@ -162,11 +521,25 @@
         shopList.appendChild(div);
       });
     }
-    function filterOpenNow() { openOnly = !openOnly; document.querySelector('.primary').textContent = openOnly ? '営業中候補のみ表示中' : '今やってるお店から探す'; renderShops(); }
+
+    function filterOpenNow() {
+      openOnly = !openOnly;
+      document.querySelector('.primary .button-title').textContent = openOnly ? '営業中候補のみ表示中' : '今やってるお店から探す';
+      document.querySelector('.primary .button-note').textContent = openOnly ? 'もう一度押すと全件に戻る' : '営業中候補だけを絞り込み';
+      renderShops();
+    }
+
     function scrollToGenres() { document.getElementById('genres').scrollIntoView({ behavior: 'smooth' }); }
     function scrollToMap() { document.getElementById('mapSection').scrollIntoView({ behavior: 'smooth' }); }
-    function pickRandom() { const items = filteredShops(); const shop = items[Math.floor(Math.random() * items.length)]; if (!shop) return; alert(`今日の1店\n\n${shop.name}\nジャンル: ${shop.genre}\nおすすめ: ${shop.rec}\n営業時間: ${shop.hours}`); }
+    function pickRandom() {
+      const items = filteredShops();
+      const shop = items[Math.floor(Math.random() * items.length)];
+      if (!shop) return;
+      alert(`今日の1店\n\n${shop.name}\nジャンル: ${shop.genre}\nおすすめ: ${shop.rec}\n営業時間: ${shop.hours}`);
+    }
+
     renderGenres();
+    renderCounts();
     renderShops();
   </script>
 </body>

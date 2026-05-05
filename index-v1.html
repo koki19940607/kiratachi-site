@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>キラキラ橘商店街 | 今夜の夕飯をすぐ探せる</title>
+  <style>
+    :root {
+      --bg: #fffaf4;
+      --card: #ffffff;
+      --text: #2f2a26;
+      --sub: #6f655d;
+      --accent: #e86f3d;
+      --line: #eadfd6;
+      --ok: #2f9e44;
+      --warn: #c77d00;
+      --shadow: 0 10px 25px rgba(70, 42, 20, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+    .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: linear-gradient(180deg, #fff5ea 0%, #fffaf4 180px); padding-bottom: 32px; }
+    header { padding: 20px 16px 12px; }
+    .eyebrow { font-size: 12px; color: var(--sub); margin-bottom: 8px; }
+    h1 { margin: 0; font-size: 28px; line-height: 1.25; }
+    .lead { margin: 10px 0 0; color: var(--sub); font-size: 14px; line-height: 1.6; }
+    .section { padding: 12px 16px; }
+    .hero-card, .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+    .hero-card { padding: 14px; }
+    .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    button, .link-btn { border: none; border-radius: 14px; padding: 14px 12px; font-size: 14px; font-weight: 700; text-align: left; cursor: pointer; background: #fff4e8; color: var(--text); border: 1px solid #f2d8c1; }
+    .primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .section-title { display: flex; align-items: center; justify-content: space-between; margin: 8px 0 10px; }
+    .section-title h2 { margin: 0; font-size: 18px; }
+    .pill-row, .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+    .pill, .chip { white-space: nowrap; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 9px 12px; font-size: 13px; cursor: pointer; }
+    .pill.active, .chip.active { background: #2f2a26; color: #fff; border-color: #2f2a26; }
+    .shop-list { display: grid; gap: 12px; }
+    .shop-card { padding: 14px; }
+    .shop-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    .shop-name { margin: 0 0 4px; font-size: 17px; }
+    .meta, .shop-copy, .shop-note { color: var(--sub); font-size: 13px; line-height: 1.5; }
+    .status { border-radius: 999px; padding: 7px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .open { background: #ebfbee; color: var(--ok); }
+    .maybe { background: #fff8e1; color: var(--warn); }
+    .shop-copy { margin: 10px 0 8px; }
+    .shop-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .shop-actions a { text-decoration: none; color: inherit; }
+    .mini { padding: 10px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--line); font-size: 13px; font-weight: 600; }
+    .notice { font-size: 12px; color: var(--sub); margin-top: 10px; line-height: 1.5; }
+    .map-card { padding: 14px; }
+    .map-box { background: linear-gradient(135deg, #fff4d7, #ffe7d1); border: 1px dashed #e4b677; border-radius: 16px; min-height: 180px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; }
+    .footer { padding: 8px 16px 24px; color: var(--sub); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="eyebrow">キラキラ橘商店街 モック</div>
+      <h1>今夜の夕飯、<br>商店街でさっと探す</h1>
+      <p class="lead">スマホで2〜3タップで、今やっているお店・ジャンル・場所から夕飯を探せる想定の試作画面です。</p>
+    </header>
+    <section class="section">
+      <div class="hero-card">
+        <strong>探し方を選ぶ</strong>
+        <div class="button-grid">
+          <button class="primary" onclick="filterOpenNow()">今やってるお店から探す</button>
+          <button onclick="scrollToGenres()">ジャンルから探す</button>
+          <button onclick="scrollToMap()">商店街マップから探す</button>
+          <button onclick="pickRandom()">ランダム</button>
+        </div>
+        <div class="notice">※ 営業中判定はモックです。公開時は曜日・時間の正確な確認が必要です。</div>
+      </div>
+    </section>
+    <section class="section" id="genres">
+      <div class="section-title"><h2>ジャンルで絞る</h2></div>
+      <div class="pill-row" id="genrePills"></div>
+    </section>
+    <section class="section">
+      <div class="section-title"><h2>店舗一覧</h2><span class="meta" id="resultCount"></span></div>
+      <div class="shop-list" id="shopList"></div>
+    </section>
+    <section class="section" id="mapSection">
+      <div class="section-title"><h2>商店街マップ（モック）</h2></div>
+      <div class="card map-card">
+        <div class="map-box">
+          <div>
+            <strong>商店街のどこにあるか見る</strong>
+            <p class="lead" style="margin-top:8px;">本番では商店街マップ画像やGoogleマップ連携を想定。今は各店舗カードの「地図を見る」から外部マップへ遷移します。</p>
+          </div>
+          <div class="chips">
+            <span class="chip">入口付近</span>
+            <span class="chip">中央あたり</span>
+            <span class="chip">奥のほう</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="footer">GitHub Pages向けモック版 / データは過去メモをもとにした暫定値を含みます。</div>
+  </div>
+  <script>
+    const shops = [
+      { name: 'たこ焼き千丸', genre: 'たこ焼き', rec: 'たこ焼き', hours: '12:00〜19:30', closed: '火・水', note: '営業時間に差分情報あり、要確認', map: 'https://maps.app.goo.gl/HtrfkoySc7DVEsFt7?g_st=ic', status: 'open', area: '中央あたり' },
+      { name: '多ぬ喜寿司', genre: '寿司', rec: '寿司', hours: '11:00〜21:00', closed: '火', note: '詳細おすすめメニュー未確認', map: 'https://maps.app.goo.gl/iU2HVcwuTY4CEBik6?g_st=ic', status: 'open', area: '中央あたり' },
+      { name: '鳥正 京島店', genre: '惣菜', rec: '焼き鳥・惣菜', hours: '11:00〜19:30', closed: '日', note: 'テイクアウト向き候補', map: 'https://maps.app.goo.gl/aSzvL8q12fhia2KF7?g_st=ic', status: 'open', area: '中央あたり' },
+      { name: 'ベーカリー チャウチャウ', genre: 'パン', rec: 'パン', hours: '10:00〜18:00', closed: '日・月・木', note: '公式サイトあり', map: 'https://maps.app.goo.gl/7W77WdsqaXsjMz827?g_st=ic', status: 'open', area: '中央あたり' },
+      { name: '餃子 美吉', genre: '惣菜', rec: '焼き餃子 / 生餃子', hours: '9:00〜17:00', closed: '火', note: 'テイクアウト専門。メンマ人気', map: 'https://maps.app.goo.gl/1A2UouscK2mb5egF9?g_st=ic', status: 'open', area: '中央あたり' },
+      { name: 'デリカショプ くるみ', genre: '惣菜', rec: '惣菜', hours: '10:00〜19:00', closed: '日', note: '店名表記は要確認', map: 'https://maps.app.goo.gl/b9e8THuL1QzeGYPN7?g_st=ic', status: 'open', area: '中央あたり' },
+      { name: 'こんこん', genre: '飲食', rec: '未確認', hours: '11:00〜19:00', closed: '月', note: 'ジャンル・おすすめ要確認', map: 'https://maps.app.goo.gl/uFHfaz4CfgawHwG66?g_st=ic', status: 'open', area: '奥のほう' },
+      { name: 'テイクアウト専門店 甲州天山 曳舟店', genre: 'テイクアウト', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/CP6EFA6GgudMN1xm6?g_st=ic', status: 'maybe', area: '奥のほう' },
+      { name: '三善豆腐工房 キラキラ橘店 東京', genre: '豆腐', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/3cKwVeDLZHwsJfc57?g_st=ic', status: 'maybe', area: '中央あたり' },
+      { name: 'ハト屋パン店', genre: 'パン', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/fDnJbBH4tLBQqqac8?g_st=ic', status: 'maybe', area: '中央あたり' },
+      { name: '大国屋蒲鉾店', genre: '惣菜', rec: '蒲鉾・おでん種', hours: '10:00〜19:30', closed: '日', note: '夕飯おかず向け候補', map: 'https://maps.app.goo.gl/wsNim2nGWP7gDNAz7?g_st=ic', status: 'open', area: '中央あたり' },
+      { name: '魚屋やまちゃん', genre: '魚', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/TvPYK98SpnNW8hA78?g_st=ic', status: 'maybe', area: '奥のほう' },
+      { name: '平成福順', genre: '飲食', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/CXTvToKxVqtKTxy17?g_st=ic', status: 'maybe', area: '奥のほう' },
+      { name: '喫茶と食事 50BAN 京島店', genre: '定食', rec: '定食・喫茶', hours: '11:30〜14:00 / 17:00〜20:00', closed: '日・祝', note: 'ランチ・夕食対応', map: 'https://maps.app.goo.gl/z3zXaAEu3WYGto117?g_st=ic', status: 'open', area: '奥のほう' },
+      { name: 'きくのや', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/P1wiNy6tnPu7Ph6B8?g_st=ic', status: 'maybe', area: '奥のほう' },
+      { name: 'ふくのや', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/hPkrWdqSHbWx7zHLA?g_st=ic', status: 'maybe', area: '奥のほう' },
+      { name: '鮒忠 京島', genre: '調査中', rec: '調査中', hours: '調査中', closed: '調査中', note: '再調査待ち', map: 'https://maps.app.goo.gl/42FVpDoqg3Jy7JJ58?g_st=ic', status: 'maybe', area: '奥のほう' },
+      { name: 'こばち屋', genre: '惣菜', rec: '惣菜', hours: '11:00〜18:30', closed: '日', note: '来店前確認推奨', map: 'https://maps.app.goo.gl/x6DJai3JXNWw3pPu8?g_st=ic', status: 'open', area: '奥のほう' }
+    ];
+    let currentGenre = 'すべて';
+    let openOnly = false;
+    const genrePills = document.getElementById('genrePills');
+    const shopList = document.getElementById('shopList');
+    const resultCount = document.getElementById('resultCount');
+    function genres() { return ['すべて', ...new Set(shops.map(s => s.genre))]; }
+    function renderGenres() {
+      genrePills.innerHTML = '';
+      genres().forEach(genre => {
+        const btn = document.createElement('button');
+        btn.className = 'pill' + (genre === currentGenre ? ' active' : '');
+        btn.textContent = genre;
+        btn.onclick = () => { currentGenre = genre; renderGenres(); renderShops(); };
+        genrePills.appendChild(btn);
+      });
+    }
+    function filteredShops() {
+      return shops.filter(shop => {
+        const byGenre = currentGenre === 'すべて' || shop.genre === currentGenre;
+        const byOpen = !openOnly || shop.status === 'open';
+        return byGenre && byOpen;
+      });
+    }
+    function renderShops() {
+      const items = filteredShops();
+      resultCount.textContent = items.length + '件';
+      shopList.innerHTML = '';
+      items.forEach(shop => {
+        const div = document.createElement('div');
+        div.className = 'card shop-card';
+        div.innerHTML = `
+          <div class="shop-head">
+            <div><h3 class="shop-name">${shop.name}</h3><div class="meta">${shop.genre} ・ ${shop.area}</div></div>
+            <div class="status ${shop.status === 'open' ? 'open' : 'maybe'}">${shop.status === 'open' ? '営業中候補' : '要確認'}</div>
+          </div>
+          <div class="shop-copy">おすすめ：${shop.rec}<br>営業時間：${shop.hours}<br>定休日：${shop.closed}</div>
+          <div class="shop-note">${shop.note}</div>
+          <div class="shop-actions">
+            <a class="mini" href="${shop.map}" target="_blank" rel="noopener">地図を見る</a>
+            <button class="mini" onclick="alert('${shop.name}\n\nジャンル: ${shop.genre}\nおすすめ: ${shop.rec}\n営業時間: ${shop.hours}\n定休日: ${shop.closed}\n\nメモ: ${shop.note}')">詳しく見る</button>
+          </div>`;
+        shopList.appendChild(div);
+      });
+    }
+    function filterOpenNow() { openOnly = !openOnly; document.querySelector('.primary').textContent = openOnly ? '営業中候補のみ表示中' : '今やってるお店から探す'; renderShops(); }
+    function scrollToGenres() { document.getElementById('genres').scrollIntoView({ behavior: 'smooth' }); }
+    function scrollToMap() { document.getElementById('mapSection').scrollIntoView({ behavior: 'smooth' }); }
+    function pickRandom() { const items = filteredShops(); const shop = items[Math.floor(Math.random() * items.length)]; if (!shop) return; alert(`今日の1店\n\n${shop.name}\nジャンル: ${shop.genre}\nおすすめ: ${shop.rec}\n営業時間: ${shop.hours}`); }
+    renderGenres();
+    renderShops();
+  </script>
+</body>
+</html>
