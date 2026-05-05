@@ -288,7 +288,7 @@
           <div class="button-grid">
             <button class="primary" onclick="filterOpenNow()">
               <span class="button-title">今やってるお店から探す</span>
-              <span class="button-note">営業中候補だけを絞り込み</span>
+              <span class="button-note">現在時刻で営業中の店を表示</span>
             </button>
             <button onclick="scrollToGenres()">
               <span class="button-title">ジャンルから探す</span>
@@ -391,7 +391,49 @@
     const shopList = document.getElementById('shopList');
     const resultCount = document.getElementById('resultCount');
 
+    const weekdayMap = ['日', '月', '火', '水', '木', '金', '土'];
+
     function genres() { return ['すべて', ...new Set(shops.map(s => s.genre))]; }
+
+    function normalizeTime(value) {
+      const match = value.match(/(\d{1,2}):(\d{2})/);
+      if (!match) return null;
+      return Number(match[1]) * 60 + Number(match[2]);
+    }
+
+    function parseTimeRanges(hours) {
+      if (!hours || hours.includes('調査中')) return [];
+      return hours
+        .split('/')
+        .map(part => part.trim())
+        .map(part => {
+          const match = part.match(/(\d{1,2}:\d{2})\s*〜\s*(\d{1,2}:\d{2})/);
+          if (!match) return null;
+          return { start: normalizeTime(match[1]), end: normalizeTime(match[2]) };
+        })
+        .filter(Boolean);
+    }
+
+    function isClosedToday(closed, now = new Date()) {
+      if (!closed || closed.includes('調査中')) return false;
+      const today = weekdayMap[now.getDay()];
+      return closed.includes(today);
+    }
+
+    function getShopState(shop, now = new Date()) {
+      const ranges = parseTimeRanges(shop.hours);
+      if (!ranges.length) {
+        return { key: 'maybe', label: '要確認' };
+      }
+      if (isClosedToday(shop.closed, now)) {
+        return { key: 'closed', label: '営業時間外' };
+      }
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const isOpen = ranges.some(range => currentMinutes >= range.start && currentMinutes <= range.end);
+      return isOpen
+        ? { key: 'open', label: '営業中' }
+        : { key: 'closed', label: '営業時間外' };
+    }
 
     function renderGenres() {
       genrePills.innerHTML = '';
@@ -411,7 +453,7 @@
     function filteredShops() {
       return shops.filter(shop => {
         const byGenre = currentGenre === 'すべて' || shop.genre === currentGenre;
-        const byOpen = !openOnly || shop.status === 'open';
+        const byOpen = !openOnly || getShopState(shop).key === 'open';
         return byGenre && byOpen;
       });
     }
@@ -423,6 +465,7 @@
 
       items.forEach(shop => {
         const div = document.createElement('div');
+        const state = getShopState(shop);
         div.className = 'card shop-card';
         const tagHtml = (shop.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('');
         div.innerHTML = `
@@ -431,7 +474,7 @@
               <h3 class="shop-name">${shop.name}</h3>
               <div class="meta">${shop.genre} ・ ${shop.area}</div>
             </div>
-            <div class="status ${shop.status === 'open' ? 'open' : 'maybe'}">${shop.status === 'open' ? '営業中候補' : '要確認'}</div>
+            <div class="status ${state.key === 'open' ? 'open' : 'maybe'}">${state.label}</div>
           </div>
           <div class="shop-copy">おすすめ：${shop.rec}<br>営業時間：${shop.hours}<br>定休日：${shop.closed}</div>
           <div class="tag-row">${tagHtml}</div>
@@ -446,8 +489,8 @@
 
     function filterOpenNow() {
       openOnly = !openOnly;
-      document.querySelector('.primary .button-title').textContent = openOnly ? '営業中候補のみ表示中' : '今やってるお店から探す';
-      document.querySelector('.primary .button-note').textContent = openOnly ? 'もう一度押すと全件に戻る' : '営業中候補だけを絞り込み';
+      document.querySelector('.primary .button-title').textContent = openOnly ? '営業中のお店のみ表示中' : '今やってるお店から探す';
+      document.querySelector('.primary .button-note').textContent = openOnly ? 'もう一度押すと全件に戻る' : '現在時刻で営業中の店を表示';
       renderShops();
     }
 
