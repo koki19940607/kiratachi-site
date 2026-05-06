@@ -377,6 +377,32 @@
       color: #9a6432;
       margin-bottom: 8px;
     }
+    .random-loading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0 4px;
+    }
+    .garapon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #e46d3a, #f3b15f, #e46d3a);
+      box-shadow: inset 0 0 0 6px rgba(255,255,255,0.75);
+    }
+    .garapon.spin {
+      animation: garaponSpin 0.9s ease-in-out;
+    }
+    @keyframes garaponSpin {
+      0% { transform: rotate(0deg) scale(0.95); }
+      50% { transform: rotate(540deg) scale(1.05); }
+      100% { transform: rotate(900deg) scale(1); }
+    }
+    .garapon-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--sub);
+    }
     .random-title {
       margin: 0;
       font-size: 24px;
@@ -509,6 +535,10 @@
   <div class="modal-overlay" id="randomModal" onclick="closeRandomModal(event)">
     <div class="random-modal" role="dialog" aria-modal="true" aria-labelledby="randomShopTitle" onclick="event.stopPropagation()">
       <div class="random-kicker">🎲 今夜の1店</div>
+      <div class="random-loading" id="randomLoading">
+        <div class="garapon" id="garaponBall"></div>
+        <div class="garapon-text" id="garaponText">ガラポン中…</div>
+      </div>
       <h3 class="random-title" id="randomShopTitle">読み込み中</h3>
       <div class="random-meta" id="randomShopMeta"></div>
       <div class="random-copy" id="randomShopCopy"></div>
@@ -541,6 +571,9 @@
     const openOnlyButton = document.getElementById('openOnlyButton');
     const allShopsButton = document.getElementById('allShopsButton');
     const randomModal = document.getElementById('randomModal');
+    const randomLoading = document.getElementById('randomLoading');
+    const garaponBall = document.getElementById('garaponBall');
+    const garaponText = document.getElementById('garaponText');
     const randomShopTitle = document.getElementById('randomShopTitle');
     const randomShopMeta = document.getElementById('randomShopMeta');
     const randomShopCopy = document.getElementById('randomShopCopy');
@@ -775,11 +808,26 @@
       const shop = items[Math.floor(Math.random() * items.length)];
       if (!shop) return;
       const state = getShopState(shop);
-      randomShopTitle.textContent = shop.name;
-      randomShopMeta.textContent = `${shop.genre} ・ ${shop.area} ・ ${state.label}`;
-      randomShopCopy.innerHTML = `おすすめ：${shop.rec}<br>営業時間：${shop.hours}<br>定休日：${shop.closed}<br><br>${shop.note}`;
-      randomMapLink.href = shop.map;
+
       randomModal.classList.add('show');
+      randomLoading.style.display = 'flex';
+      garaponText.textContent = 'ガラポン中…';
+      garaponBall.classList.remove('spin');
+      void garaponBall.offsetWidth;
+      garaponBall.classList.add('spin');
+      randomShopTitle.textContent = '商店街で探しています…';
+      randomShopMeta.textContent = '';
+      randomShopCopy.innerHTML = '今夜の1店を引いています。';
+      randomMapLink.href = '#';
+
+      window.setTimeout(() => {
+        randomLoading.style.display = 'flex';
+        garaponText.textContent = '当たりはこちら';
+        randomShopTitle.textContent = shop.name;
+        randomShopMeta.textContent = `${shop.genre} ・ ${shop.area} ・ ${state.label}`;
+        randomShopCopy.innerHTML = `おすすめ：${shop.rec}<br>営業時間：${shop.hours}<br>定休日：${shop.closed}<br><br>${shop.note}`;
+        randomMapLink.href = shop.map;
+      }, 850);
     }
 
     async function init() {
