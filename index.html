@@ -381,6 +381,7 @@
       display: grid;
       grid-template-rows: 1fr 1fr 1fr;
       gap: 10px;
+      pointer-events: none;
     }
     .zone-card {
       position: relative;
@@ -395,6 +396,7 @@
       font-size: 12px;
       line-height: 1.5;
       box-shadow: 0 4px 12px rgba(120, 87, 61, 0.08);
+      pointer-events: auto;
     }
     .zone-card strong {
       display: block;
@@ -405,6 +407,51 @@
     .zone-card.active {
       background: linear-gradient(135deg, rgba(228,109,58,0.18), rgba(243,177,95,0.22));
       border-color: rgba(228,109,58,0.55);
+    }
+    .map-shops-layer {
+      position: absolute;
+      inset: 14px 10px;
+      pointer-events: none;
+    }
+    .map-shop {
+      position: absolute;
+      width: 112px;
+      min-height: 28px;
+      padding: 6px 8px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(230,181,122,0.55);
+      box-shadow: 0 4px 10px rgba(120, 87, 61, 0.08);
+      font-size: 10px;
+      line-height: 1.35;
+      color: #6b4f39;
+      pointer-events: auto;
+      text-align: left;
+    }
+    .map-shop.left { left: 4px; }
+    .map-shop.right { right: 4px; }
+    .map-shop.active {
+      border-color: rgba(228,109,58,0.72);
+      background: rgba(255,247,240,0.96);
+    }
+    .map-shop::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 14px;
+      border-top: 2px dashed rgba(174, 126, 74, 0.6);
+    }
+    .map-shop.left::after { right: -14px; }
+    .map-shop.right::after { left: -14px; }
+    .map-shop-title {
+      display: block;
+      font-weight: 800;
+      color: #5a402c;
+    }
+    .map-shop-sub {
+      display: block;
+      margin-top: 2px;
+      color: #8a6a52;
     }
     .zone-links {
       display: flex;
@@ -687,6 +734,7 @@
             </div>
             <div class="street-canvas">
               <div class="street-road"></div>
+              <div class="map-shops-layer" id="mapShopsLayer"></div>
               <div class="zone-strip" id="zoneStrip">
                 <button class="zone-card" data-area="入口付近" onclick="filterByArea('入口付近')"><strong>入口付近</strong>最初に立ち寄りやすいゾーン</button>
                 <button class="zone-card" data-area="中央あたり" onclick="filterByArea('中央あたり')"><strong>中央あたり</strong>惣菜やパンを見比べやすいゾーン</button>
@@ -758,6 +806,7 @@
     const openOnlyButton = document.getElementById('openOnlyButton');
     const allShopsButton = document.getElementById('allShopsButton');
     const zoneStrip = document.getElementById('zoneStrip');
+    const mapShopsLayer = document.getElementById('mapShopsLayer');
     const randomModal = document.getElementById('randomModal');
     const randomLoading = document.getElementById('randomLoading');
     const garaponBall = document.getElementById('garaponBall');
@@ -887,6 +936,37 @@
       });
     }
 
+    function zoneToAreaLabel(zone) {
+      return zone === 'entrance' ? '入口付近' : zone === 'middle' ? '中央あたり' : zone === 'back' ? '奥のほう' : '中央あたり';
+    }
+
+    function renderMapShops() {
+      if (!mapShopsLayer) return;
+      const zoneTopMap = { entrance: 6, middle: 35, back: 66 };
+      mapShopsLayer.innerHTML = '';
+      shops
+        .filter(shop => shop.mapOrder && shop.mapOrder < 90)
+        .forEach(shop => {
+          const zone = shop.mapZone || 'middle';
+          const side = shop.mapSide || 'right';
+          const order = Number(shop.mapOrder || 1);
+          const row = Number(shop.mapRow || 1);
+          const top = (zoneTopMap[zone] || 35) + (order - 1) * 5 + (row - 1) * 2;
+          const el = document.createElement('button');
+          el.className = `map-shop ${side}` + ((currentArea === 'all' || zoneToAreaLabel(zone) === currentArea) ? ' active' : '');
+          el.style.top = `${Math.min(top, 84)}%`;
+          el.innerHTML = `<span class="map-shop-title">${shop.name}</span><span class="map-shop-sub">${shop.genre}</span>`;
+          el.onclick = () => {
+            currentArea = zoneToAreaLabel(zone);
+            updateZoneUI();
+            renderMapShops();
+            renderShops();
+            scrollToShops();
+          };
+          mapShopsLayer.appendChild(el);
+        });
+    }
+
     function getReasonChips(shop) {
       const reasons = [];
       const note = shop.note || '';
@@ -989,6 +1069,7 @@
     function filterByArea(area) {
       currentArea = area;
       updateZoneUI();
+      renderMapShops();
       renderShops();
       scrollToShops();
     }
@@ -996,6 +1077,7 @@
     function showAllAreas() {
       currentArea = 'all';
       updateZoneUI();
+      renderMapShops();
       renderShops();
     }
 
@@ -1050,6 +1132,7 @@
         renderQuickFilters();
         updateOpenToggleUI();
         updateZoneUI();
+        renderMapShops();
         renderShops();
       } catch (error) {
         resultCount.textContent = '読込失敗';
