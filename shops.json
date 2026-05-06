@@ -19,8 +19,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-north",
-    "mapX": 77,
-    "mapY": 18,
+    "mapX": 47,
+    "mapY": 31,
     "mapLabelSide": "right"
   },
   {
@@ -42,8 +42,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-mid",
-    "mapX": 77,
-    "mapY": 30,
+    "mapX": 52,
+    "mapY": 36,
     "mapLabelSide": "right"
   },
   {
@@ -65,8 +65,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-mid",
-    "mapX": 77,
-    "mapY": 41,
+    "mapX": 49,
+    "mapY": 45,
     "mapLabelSide": "right"
   },
   {
@@ -88,8 +88,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-mid",
-    "mapX": 23,
-    "mapY": 39,
+    "mapX": 34,
+    "mapY": 47,
     "mapLabelSide": "left"
   },
   {
@@ -111,8 +111,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-north",
-    "mapX": 23,
-    "mapY": 27,
+    "mapX": 31,
+    "mapY": 56,
     "mapLabelSide": "left"
   },
   {
@@ -134,8 +134,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-mid",
-    "mapX": 77,
-    "mapY": 52,
+    "mapX": 46,
+    "mapY": 51,
     "mapLabelSide": "right"
   },
   {
@@ -156,8 +156,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "side-east",
-    "mapX": 86,
-    "mapY": 56,
+    "mapX": 60,
+    "mapY": 83,
     "mapLabelSide": "right"
   },
   {
@@ -179,8 +179,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "side-east",
-    "mapX": 86,
-    "mapY": 46,
+    "mapX": 72,
+    "mapY": 70,
     "mapLabelSide": "right"
   },
   {
@@ -202,8 +202,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-mid",
-    "mapX": 23,
-    "mapY": 49,
+    "mapX": 38,
+    "mapY": 42,
     "mapLabelSide": "left"
   },
   {
@@ -226,8 +226,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-north",
-    "mapX": 23,
-    "mapY": 16,
+    "mapX": 35,
+    "mapY": 64,
     "mapLabelSide": "left"
   },
   {
@@ -249,8 +249,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-mid",
-    "mapX": 23,
-    "mapY": 59,
+    "mapX": 43,
+    "mapY": 37,
     "mapLabelSide": "left"
   },
   {
@@ -272,8 +272,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-south",
-    "mapX": 77,
-    "mapY": 64,
+    "mapX": 59,
+    "mapY": 58,
     "mapLabelSide": "right"
   },
   {
@@ -295,8 +295,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "side-east",
-    "mapX": 86,
-    "mapY": 73,
+    "mapX": 67,
+    "mapY": 50,
     "mapLabelSide": "right"
   },
   {
@@ -318,9 +318,9 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-south",
-    "mapX": 23,
-    "mapY": 90,
-    "mapLabelSide": "left"
+    "mapX": 55,
+    "mapY": 72,
+    "mapLabelSide": "right"
   },
   {
     "name": "きくのや",
@@ -341,8 +341,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-south",
-    "mapX": 23,
-    "mapY": 81,
+    "mapX": 49,
+    "mapY": 86,
     "mapLabelSide": "left"
   },
   {
@@ -365,8 +365,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "side-east",
-    "mapX": 86,
-    "mapY": 81,
+    "mapX": 74,
+    "mapY": 55,
     "mapLabelSide": "right"
   },
   {
@@ -388,8 +388,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-south",
-    "mapX": 77,
-    "mapY": 90,
+    "mapX": 63,
+    "mapY": 66,
     "mapLabelSide": "right"
   },
   {
@@ -411,8 +411,8 @@
     "mapRow": 1,
     "mapNote": "仮配置。現地図・Googleマップ・案内図を見ながら要調整",
     "mapStreet": "main-south",
-    "mapX": 23,
-    "mapY": 71,
+    "mapX": 45,
+    "mapY": 79,
     "mapLabelSide": "left"
   }
 ]
