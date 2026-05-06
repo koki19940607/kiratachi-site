@@ -347,6 +347,68 @@
       font-size: 12px;
       line-height: 1.6;
     }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(33, 24, 16, 0.46);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+    .modal-overlay.show { display: flex; }
+    .random-modal {
+      width: min(100%, 380px);
+      background: linear-gradient(180deg, #fffdf9, #fff7ef);
+      border: 1px solid rgba(234,216,200,0.95);
+      border-radius: 24px;
+      box-shadow: 0 22px 48px rgba(63, 35, 14, 0.22);
+      padding: 18px;
+      animation: popIn 0.18s ease-out;
+    }
+    @keyframes popIn {
+      from { transform: translateY(8px) scale(0.98); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .random-kicker {
+      font-size: 12px;
+      font-weight: 800;
+      color: #9a6432;
+      margin-bottom: 8px;
+    }
+    .random-title {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+    .random-meta {
+      margin-top: 8px;
+      color: var(--sub);
+      font-size: 13px;
+    }
+    .random-copy {
+      margin: 14px 0 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .random-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .random-actions .primary-link {
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #d85e2d);
+      border: none;
+    }
     @media (max-width: 360px) {
       h1 { font-size: 28px; }
       .button-grid, .map-mini-grid, .toggle-options { grid-template-columns: 1fr; }
@@ -444,6 +506,20 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="randomModal" onclick="closeRandomModal(event)">
+    <div class="random-modal" role="dialog" aria-modal="true" aria-labelledby="randomShopTitle" onclick="event.stopPropagation()">
+      <div class="random-kicker">🎲 今夜の1店</div>
+      <h3 class="random-title" id="randomShopTitle">読み込み中</h3>
+      <div class="random-meta" id="randomShopMeta"></div>
+      <div class="random-copy" id="randomShopCopy"></div>
+      <div class="random-actions">
+        <a class="mini primary-link" id="randomMapLink" href="#" target="_blank" rel="noopener">地図を見る</a>
+        <button class="mini" onclick="pickRandom()">もう一度ランダム</button>
+        <button class="mini" onclick="closeRandomModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let shops = [];
 
@@ -464,6 +540,11 @@
     const openToggleNote = document.getElementById('openToggleNote');
     const openOnlyButton = document.getElementById('openOnlyButton');
     const allShopsButton = document.getElementById('allShopsButton');
+    const randomModal = document.getElementById('randomModal');
+    const randomShopTitle = document.getElementById('randomShopTitle');
+    const randomShopMeta = document.getElementById('randomShopMeta');
+    const randomShopCopy = document.getElementById('randomShopCopy');
+    const randomMapLink = document.getElementById('randomMapLink');
 
     const weekdayMap = ['日', '月', '火', '水', '木', '金', '土'];
     const quickFilterDefs = [
@@ -684,11 +765,21 @@
       document.getElementById('mapSection').scrollIntoView({ behavior: 'smooth' });
     }
 
+    function closeRandomModal(event) {
+      if (event && event.target !== randomModal) return;
+      randomModal.classList.remove('show');
+    }
+
     function pickRandom() {
       const items = filteredShops();
       const shop = items[Math.floor(Math.random() * items.length)];
       if (!shop) return;
-      alert(`今日の1店\n\n${shop.name}\nジャンル: ${shop.genre}\nおすすめ: ${shop.rec}\n営業時間: ${shop.hours}`);
+      const state = getShopState(shop);
+      randomShopTitle.textContent = shop.name;
+      randomShopMeta.textContent = `${shop.genre} ・ ${shop.area} ・ ${state.label}`;
+      randomShopCopy.innerHTML = `おすすめ：${shop.rec}<br>営業時間：${shop.hours}<br>定休日：${shop.closed}<br><br>${shop.note}`;
+      randomMapLink.href = shop.map;
+      randomModal.classList.add('show');
     }
 
     async function init() {
