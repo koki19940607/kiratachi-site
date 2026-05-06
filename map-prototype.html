@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>キラキラ橘商店街 地図プロトタイプ</title>
+  <style>
+    :root {
+      --bg: #f8f2ea;
+      --paper: #fffdf9;
+      --text: #2d2621;
+      --sub: #6b625a;
+      --line: #ead8c8;
+      --accent: #e46d3a;
+      --road: #d8c1a6;
+      --road-2: #c9ad8c;
+      --block: #fff7ef;
+      --open: #2f9e44;
+      --closed: #8b837b;
+      --check: #c77d00;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .app { max-width: 430px; margin: 0 auto; padding: 18px 14px 40px; }
+    h1 { font-size: 24px; margin: 0 0 8px; }
+    .lead { color: var(--sub); font-size: 13px; line-height: 1.6; margin: 0 0 14px; }
+    .map-wrap {
+      position: relative;
+      width: 100%;
+      height: 780px;
+      background: linear-gradient(180deg, #fffaf4, #fff2e5);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 14px 36px rgba(84, 48, 21, 0.08);
+    }
+    .block {
+      position: absolute;
+      background: var(--block);
+      border: 1px solid #efd9c7;
+      border-radius: 18px;
+    }
+    .road {
+      position: absolute;
+      background: linear-gradient(180deg, var(--road), var(--road-2));
+      border: 2px solid rgba(116, 83, 53, 0.14);
+      border-radius: 20px;
+    }
+    .road.main { left: 38%; width: 24%; top: 2%; height: 96%; }
+    .road.cross-1 { left: 8%; width: 84%; top: 14%; height: 5%; }
+    .road.cross-2 { left: 12%; width: 78%; top: 34%; height: 5%; }
+    .road.cross-3 { left: 10%; width: 80%; top: 58%; height: 5%; }
+    .road.cross-4 { left: 14%; width: 74%; top: 80%; height: 5%; }
+    .road.side-east { left: 72%; width: 12%; top: 44%; height: 44%; }
+    .road::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 14px;
+      border: 2px dashed rgba(255,255,255,0.45);
+    }
+    .zone-label {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 800;
+      color: #7b593f;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid #edd3be;
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .zone-1 { top: 3%; }
+    .zone-2 { top: 37%; }
+    .zone-3 { top: 72%; }
+    .shop {
+      position: absolute;
+      width: 96px;
+      min-height: 38px;
+      padding: 7px 8px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid #ead8c8;
+      box-shadow: 0 6px 12px rgba(84, 48, 21, 0.08);
+      font-size: 10px;
+      line-height: 1.35;
+      text-align: left;
+    }
+    .shop::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 14px;
+      border-top: 2px dashed #c9a27e;
+    }
+    .shop.left::before { right: -14px; }
+    .shop.right::before { left: -14px; }
+    .shop strong { display: block; font-size: 10px; margin-bottom: 2px; }
+    .open { border-color: rgba(47,158,68,0.35); }
+    .closed { border-color: rgba(139,131,123,0.35); }
+    .maybe { border-color: rgba(199,125,0,0.35); }
+    .legend { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .legend span {
+      font-size: 11px; color: var(--sub); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>商店街地図プロトタイプ</h1>
+    <p class="lead">参考地図を見ながら、道と店舗の位置関係を手でプロットするための専用試作です。まだ仮配置ですが、ゾーンではなく道沿いの並びを見せる方向に切り替えています。</p>
+    <div class="map-wrap" id="mapWrap">
+      <div class="block" style="left:4%;top:4%;width:26%;height:20%"></div>
+      <div class="block" style="left:4%;top:28%;width:26%;height:20%"></div>
+      <div class="block" style="left:4%;top:52%;width:26%;height:18%"></div>
+      <div class="block" style="left:4%;top:74%;width:26%;height:20%"></div>
+      <div class="block" style="left:70%;top:4%;width:26%;height:18%"></div>
+      <div class="block" style="left:70%;top:26%;width:26%;height:18%"></div>
+      <div class="block" style="left:70%;top:48%;width:26%;height:18%"></div>
+      <div class="block" style="left:70%;top:70%;width:26%;height:24%"></div>
+
+      <div class="road main"></div>
+      <div class="road cross-1"></div>
+      <div class="road cross-2"></div>
+      <div class="road cross-3"></div>
+      <div class="road cross-4"></div>
+      <div class="road side-east"></div>
+
+      <div class="zone-label zone-1">入口付近</div>
+      <div class="zone-label zone-2">中央あたり</div>
+      <div class="zone-label zone-3">奥のほう</div>
+    </div>
+    <div class="legend">
+      <span>緑: 営業中</span>
+      <span>灰: 営業時間外</span>
+      <span>黄: 要確認</span>
+    </div>
+  </div>
+  <script>
+    let shops = [];
+    const mapWrap = document.getElementById('mapWrap');
+    fetch('./shops.json', { cache: 'no-store' }).then(r => r.json()).then(data => {
+      shops = data;
+      render();
+    });
+    function stateClass(shop) {
+      if (!shop.hours || shop.hours.includes('調査中') || (shop.note || '').includes('要確認')) return 'maybe';
+      return 'closed';
+    }
+    function render() {
+      shops.forEach(shop => {
+        if (shop.mapX == null || shop.mapY == null) return;
+        const el = document.createElement('button');
+        el.className = `shop ${shop.mapLabelSide || 'right'} ${stateClass(shop)}`;
+        el.style.left = `calc(${shop.mapX}% - 48px)`;
+        el.style.top = `calc(${shop.mapY}% - 18px)`;
+        el.innerHTML = `<strong>${shop.name}</strong><span>${shop.genre}</span>`;
+        el.title = `${shop.name}\n${shop.hours}\n${shop.closed}`;
+        mapWrap.appendChild(el);
+      });
+    }
+  </script>
+</body>
+</html>
