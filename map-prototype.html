@@ -11,19 +11,6 @@
       --text: #2d2621;
       --sub: #6b625a;
       --line: #ead8c8;
-      --road: #efe2cf;
-      --road-edge: #d0b18d;
-      --water: #dff2fb;
-      --water-edge: #9ecce2;
-      --park: #e4f3df;
-      --park-edge: #9bc390;
-      --rail: #e7ecf8;
-      --rail-edge: #a9b8d8;
-      --hospital: #fff0f0;
-      --hospital-edge: #ddb0b0;
-      --shop-bg: rgba(255,255,255,0.95);
-      --shop-line: #ebd9c8;
-      --shadow: 0 10px 24px rgba(77, 43, 18, 0.08);
     }
     * { box-sizing: border-box; }
     body {
@@ -48,172 +35,17 @@
       font-size: 13px;
       line-height: 1.7;
     }
-    .map-wrap {
-      position: relative;
-      width: 100%;
-      height: 960px;
-      background: linear-gradient(180deg, #fffaf4, #fff3e8);
+    .map-card {
+      background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 28px;
       overflow: hidden;
-      box-shadow: var(--shadow);
+      box-shadow: 0 14px 36px rgba(84, 48, 21, 0.08);
     }
-    .ground-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.22) 1px, transparent 1px);
-      background-size: 24px 24px;
-      opacity: 0.35;
-      pointer-events: none;
-    }
-    .water {
-      position: absolute;
-      right: -2%;
-      top: 8%;
-      width: 22%;
-      height: 84%;
-      background: linear-gradient(180deg, var(--water), #cfeaf6);
-      border-left: 3px solid var(--water-edge);
-      border-radius: 30px 0 0 30px;
-    }
-    .water-label {
-      position: absolute;
-      right: 4%;
-      top: 18%;
-      writing-mode: vertical-rl;
-      font-size: 12px;
-      font-weight: 800;
-      color: #4f7a8e;
-      background: rgba(255,255,255,0.82);
-      border: 1px solid rgba(158,204,226,0.9);
-      padding: 8px 6px;
-      border-radius: 14px;
-    }
-    .road {
-      position: absolute;
-      background: var(--road);
-      border: 2px solid var(--road-edge);
-      border-radius: 22px;
-      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.38);
-    }
-    .road.main {
-      left: 35%;
-      top: 12%;
-      width: 17%;
-      height: 73%;
-      transform: rotate(23deg);
-      transform-origin: center center;
-    }
-    .road.branch-a {
-      left: 9%; top: 18%; width: 44%; height: 4.6%; transform: rotate(-24deg);
-    }
-    .road.branch-b {
-      left: 14%; top: 30%; width: 47%; height: 4.4%; transform: rotate(-24deg);
-    }
-    .road.branch-c {
-      left: 12%; top: 44%; width: 51%; height: 4.4%; transform: rotate(-18deg);
-    }
-    .road.branch-d {
-      left: 16%; top: 57%; width: 48%; height: 4.2%; transform: rotate(-16deg);
-    }
-    .road.branch-e {
-      left: 23%; top: 71%; width: 42%; height: 4.2%; transform: rotate(-10deg);
-    }
-    .road.bridge-1,
-    .road.bridge-2 {
-      left: 57%;
-      width: 23%;
-      height: 3.2%;
-      border-radius: 14px;
-      background: #f4e2cd;
-    }
-    .road.bridge-1 { top: 40%; }
-    .road.bridge-2 { top: 62%; }
-    .road.side-east {
-      left: 67%;
-      top: 24%;
-      width: 9%;
-      height: 54%;
-      border-radius: 16px;
-    }
-    .rail {
-      position: absolute;
-      left: 58%;
-      top: 5%;
-      width: 24%;
-      height: 9%;
-      background: linear-gradient(180deg, var(--rail), #dde6f8);
-      border: 1px solid var(--rail-edge);
-      border-radius: 20px;
-      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.35);
-    }
-    .landmark {
-      position: absolute;
-      border-radius: 18px;
-      padding: 10px 10px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid #e8d9cb;
-      box-shadow: 0 6px 16px rgba(77, 43, 18, 0.05);
-      font-size: 11px;
-      line-height: 1.45;
-      color: #5f4c3f;
-    }
-    .landmark strong { display: block; margin-bottom: 3px; font-size: 11px; }
-    .park {
-      background: linear-gradient(180deg, var(--park), #eef8ea);
-      border-color: var(--park-edge);
-    }
-    .station {
-      background: linear-gradient(180deg, var(--rail), #f2f5fb);
-      border-color: var(--rail-edge);
-    }
-    .hospital {
-      background: linear-gradient(180deg, var(--hospital), #fff7f7);
-      border-color: var(--hospital-edge);
-    }
-    .zone-label {
-      position: absolute;
-      font-size: 11px;
-      font-weight: 800;
-      color: #775a43;
-      background: rgba(255,255,255,0.94);
-      border: 1px solid #ead7c4;
-      padding: 6px 10px;
-      border-radius: 999px;
-    }
-    .zone-1 { left: 51%; top: 14%; }
-    .zone-2 { left: 37%; top: 42%; }
-    .zone-3 { left: 44%; top: 73%; }
-    .shop {
-      position: absolute;
-      width: 108px;
-      min-height: 40px;
-      padding: 8px 8px;
-      border-radius: 14px;
-      background: var(--shop-bg);
-      border: 1px solid var(--shop-line);
-      box-shadow: 0 6px 14px rgba(77, 43, 18, 0.07);
-      font-size: 10px;
-      line-height: 1.35;
-      color: #5a4638;
-      text-align: left;
-    }
-    .shop::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 16px;
-      border-top: 2px dashed #c6a17b;
-    }
-    .shop.left::before { right: -16px; }
-    .shop.right::before { left: -16px; }
-    .shop strong {
+    .map-frame {
+      width: 100%;
       display: block;
-      margin-bottom: 2px;
-      font-size: 10px;
-      color: #49372c;
+      background: linear-gradient(180deg, #fffaf4, #fff3e8);
     }
     .legend {
       display: flex;
@@ -234,78 +66,88 @@
 <body>
   <div class="app">
     <h1>商店街地図プロトタイプ</h1>
-    <p class="lead">サンプルの案内図イラストを参考に、Googleマップのスクショを下敷きにして「地形は実地寄り・見た目は案内図寄り」に描き直した試作です。</p>
-    <div class="map-wrap" id="mapWrap">
-      <div class="ground-grid"></div>
-      <div class="water"></div>
-      <div class="water-label">河川・橋のある側</div>
+    <p class="lead">サンプルの案内図の雰囲気に寄せるため、CSSの箱ではなく SVG で描く方式に切り替えた試作です。まずは地形・道・ランドマークの見た目を整えています。</p>
 
-      <div class="road main"></div>
-      <div class="road branch-a"></div>
-      <div class="road branch-b"></div>
-      <div class="road branch-c"></div>
-      <div class="road branch-d"></div>
-      <div class="road branch-e"></div>
-      <div class="road side-east"></div>
-      <div class="road bridge-1"></div>
-      <div class="road bridge-2"></div>
+    <div class="map-card">
+      <svg class="map-frame" viewBox="0 0 430 980" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="キラキラ橘商店街の案内図プロトタイプ">
+        <defs>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#8d5e39" flood-opacity="0.10"/>
+          </filter>
+        </defs>
 
-      <div class="rail"></div>
+        <rect x="0" y="0" width="430" height="980" fill="#fff7ef"/>
+        <path d="M350 40 C390 160, 392 260, 386 360 C380 470, 390 600, 394 760 C396 850, 388 930, 382 980 L430 980 L430 0 L350 0 Z" fill="#dff2fb"/>
+        <path d="M352 40 C392 160, 394 260, 388 360 C382 470, 392 600, 396 760 C398 850, 390 930, 384 980" fill="none" stroke="#98c6de" stroke-width="4"/>
 
-      <div class="zone-label zone-1">入口寄り</div>
-      <div class="zone-label zone-2">中央あたり</div>
-      <div class="zone-label zone-3">奥側</div>
+        <path d="M215 90 C235 120, 250 165, 256 225 C262 285, 255 350, 250 420 C246 490, 258 565, 272 635 C286 705, 292 782, 292 870" fill="none" stroke="#d5b797" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M215 90 C235 120, 250 165, 256 225 C262 285, 255 350, 250 420 C246 490, 258 565, 272 635 C286 705, 292 782, 292 870" fill="none" stroke="#f7e2c7" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M230 120 C242 160, 248 215, 246 270 C245 320, 240 380, 240 430 C241 500, 252 570, 266 640 C278 710, 282 780, 282 850" fill="none" stroke="#fff8ef" stroke-width="4" stroke-dasharray="8 10" stroke-linecap="round"/>
 
-      <div class="landmark station" style="left:58%;top:4%;width:24%;">
-        <strong>駅方面</strong>
-        曳舟 / 京成曳舟 方向
-      </div>
-      <div class="landmark park" style="left:63%;top:47%;width:20%;">
-        <strong>京島南公園</strong>
-        地図の基準点
-      </div>
-      <div class="landmark hospital" style="left:9%;top:79%;width:22%;">
-        <strong>病院・医療施設側</strong>
-        ランドマーク候補
-      </div>
-      <div class="landmark park" style="left:8%;top:10%;width:19%;">
-        <strong>入口側の通り</strong>
-        商店街の入り口方向
-      </div>
-      <div class="landmark" style="left:66%;top:80%;width:18%;">
-        <strong>八広方面</strong>
-        奥側の目印
-      </div>
-      <div class="landmark" style="left:8%;top:56%;width:18%;">
-        <strong>学校 / 神社側</strong>
-        左側ランドマーク
-      </div>
+        <path d="M70 180 C128 170, 178 164, 232 154" fill="none" stroke="#f2dfc7" stroke-width="24" stroke-linecap="round"/>
+        <path d="M98 315 C146 308, 196 298, 245 288" fill="none" stroke="#f2dfc7" stroke-width="22" stroke-linecap="round"/>
+        <path d="M66 470 C132 458, 188 448, 244 438" fill="none" stroke="#f2dfc7" stroke-width="24" stroke-linecap="round"/>
+        <path d="M112 640 C168 630, 220 622, 276 612" fill="none" stroke="#f2dfc7" stroke-width="22" stroke-linecap="round"/>
+        <path d="M150 815 C200 808, 244 804, 292 800" fill="none" stroke="#f2dfc7" stroke-width="20" stroke-linecap="round"/>
+        <path d="M290 430 C332 426, 360 420, 382 418" fill="none" stroke="#f2dfc7" stroke-width="18" stroke-linecap="round"/>
+        <path d="M300 622 C336 618, 360 616, 382 614" fill="none" stroke="#f2dfc7" stroke-width="18" stroke-linecap="round"/>
+        <path d="M328 245 C338 310, 340 368, 338 430" fill="none" stroke="#f2dfc7" stroke-width="18" stroke-linecap="round"/>
+        <path d="M330 620 C334 680, 336 742, 336 808" fill="none" stroke="#f2dfc7" stroke-width="16" stroke-linecap="round"/>
+
+        <g filter="url(#shadow)">
+          <rect x="286" y="58" width="104" height="58" rx="18" fill="#edf2fb" stroke="#adc0e1" stroke-width="2"/>
+          <text x="338" y="82" font-size="12" text-anchor="middle" fill="#4f6388" font-weight="700">駅方面</text>
+          <text x="338" y="99" font-size="11" text-anchor="middle" fill="#6b7ea0">曳舟 / 京成曳舟</text>
+        </g>
+
+        <g filter="url(#shadow)">
+          <rect x="300" y="486" width="90" height="58" rx="18" fill="#e7f4e3" stroke="#9fc894" stroke-width="2"/>
+          <text x="345" y="509" font-size="12" text-anchor="middle" fill="#55704c" font-weight="700">京島南公園</text>
+          <text x="345" y="526" font-size="10" text-anchor="middle" fill="#698162">ランドマーク</text>
+        </g>
+
+        <g filter="url(#shadow)">
+          <rect x="42" y="748" width="104" height="58" rx="18" fill="#fff2f2" stroke="#ddb0b0" stroke-width="2"/>
+          <text x="94" y="771" font-size="12" text-anchor="middle" fill="#8b5a5a" font-weight="700">病院・医療施設側</text>
+          <text x="94" y="788" font-size="10" text-anchor="middle" fill="#987070">要調整</text>
+        </g>
+
+        <g filter="url(#shadow)">
+          <rect x="28" y="84" width="90" height="54" rx="18" fill="#fffdf9" stroke="#ecd8c4" stroke-width="2"/>
+          <text x="73" y="106" font-size="12" text-anchor="middle" fill="#6b5646" font-weight="700">入口の通り</text>
+          <text x="73" y="123" font-size="10" text-anchor="middle" fill="#8a7668">商店街の入口側</text>
+        </g>
+
+        <g filter="url(#shadow)">
+          <rect x="36" y="540" width="88" height="54" rx="18" fill="#fffdf9" stroke="#ecd8c4" stroke-width="2"/>
+          <text x="80" y="562" font-size="12" text-anchor="middle" fill="#6b5646" font-weight="700">学校 / 神社側</text>
+          <text x="80" y="579" font-size="10" text-anchor="middle" fill="#8a7668">左側ランドマーク</text>
+        </g>
+
+        <g filter="url(#shadow)">
+          <rect x="312" y="830" width="82" height="50" rx="18" fill="#fffdf9" stroke="#ecd8c4" stroke-width="2"/>
+          <text x="353" y="851" font-size="12" text-anchor="middle" fill="#6b5646" font-weight="700">八広方面</text>
+          <text x="353" y="867" font-size="10" text-anchor="middle" fill="#8a7668">奥側の目印</text>
+        </g>
+
+        <g>
+          <rect x="244" y="116" width="74" height="28" rx="14" fill="rgba(255,255,255,0.94)" stroke="#ead7c4"/>
+          <text x="281" y="134" font-size="11" text-anchor="middle" fill="#7a5a42" font-weight="700">入口寄り</text>
+
+          <rect x="210" y="404" width="86" height="28" rx="14" fill="rgba(255,255,255,0.94)" stroke="#ead7c4"/>
+          <text x="253" y="422" font-size="11" text-anchor="middle" fill="#7a5a42" font-weight="700">中央あたり</text>
+
+          <rect x="244" y="724" width="74" height="28" rx="14" fill="rgba(255,255,255,0.94)" stroke="#ead7c4"/>
+          <text x="281" y="742" font-size="11" text-anchor="middle" fill="#7a5a42" font-weight="700">奥側</text>
+        </g>
+      </svg>
     </div>
+
     <div class="legend">
-      <span>先に案内図の地形を合わせる</span>
-      <span>次に店を道沿いに戻す</span>
-      <span>最後に本体サイトへ統合</span>
+      <span>地形を案内図イラストで描く</span>
+      <span>次に店を道沿いに載せる</span>
+      <span>最後に本体へ統合</span>
     </div>
   </div>
-  <script>
-    let shops = [];
-    const mapWrap = document.getElementById('mapWrap');
-    fetch('./shops.json', { cache: 'no-store' }).then(r => r.json()).then(data => {
-      shops = data;
-      render();
-    });
-    function render() {
-      shops.forEach(shop => {
-        if (shop.mapX == null || shop.mapY == null) return;
-        const el = document.createElement('button');
-        el.className = `shop ${shop.mapLabelSide || 'right'}`;
-        el.style.left = `calc(${shop.mapX}% - 54px)`;
-        el.style.top = `calc(${shop.mapY}% - 18px)`;
-        el.innerHTML = `<strong>${shop.name}</strong><span>${shop.genre}</span>`;
-        el.title = `${shop.name}\n${shop.hours}\n${shop.closed}`;
-        mapWrap.appendChild(el);
-      });
-    }
-  </script>
 </body>
 </html>
