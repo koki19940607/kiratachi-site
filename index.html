@@ -284,6 +284,22 @@
       border: 1px solid var(--line);
       color: #725f51;
     }
+    .reason-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 0 0 10px;
+    }
+    .reason-chip {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: #fff6ea;
+      border: 1px solid #f1d6b7;
+      color: #9a6432;
+    }
     .shop-actions {
       display: flex;
       gap: 8px;
@@ -561,11 +577,25 @@
       allShopsButton.setAttribute('aria-pressed', String(!openOnly));
     }
 
+    function getReasonChips(shop) {
+      const reasons = [];
+      const note = shop.note || '';
+      if (note.includes('要確認')) reasons.push('要確認');
+      if (note.includes('差分')) reasons.push('情報差分あり');
+      if (note.includes('不定休')) reasons.push('不定休');
+      if (note.includes('Instagram')) reasons.push('SNS告知営業');
+      if (note.includes('売り切れ次第終了')) reasons.push('売切終了あり');
+      if (note.includes('夏季休業')) reasons.push('季節休業あり');
+      if (note.includes('来店前確認')) reasons.push('来店前確認推奨');
+      return reasons;
+    }
+
     function buildShopCard(shop) {
       const div = document.createElement('div');
       const state = getShopState(shop);
       const statusClass = state.key === 'open' ? 'open' : state.key === 'closed' ? 'closed' : 'maybe';
       const tagHtml = (shop.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('');
+      const reasonHtml = getReasonChips(shop).map(reason => `<span class="reason-chip">${reason}</span>`).join('');
       div.className = 'card shop-card';
       div.innerHTML = `
         <div class="shop-head">
@@ -576,6 +606,7 @@
           <div class="status ${statusClass}">${state.label}</div>
         </div>
         <div class="shop-copy">おすすめ：${shop.rec}<br>営業時間：${shop.hours}<br>定休日：${shop.closed}</div>
+        ${reasonHtml ? `<div class="reason-row">${reasonHtml}</div>` : ''}
         <div class="tag-row">${tagHtml}</div>
         <div class="shop-note">${shop.note}</div>
         <div class="shop-actions">
