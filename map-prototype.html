@@ -6,109 +6,300 @@
   <title>キラキラ橘商店街 地図プロトタイプ</title>
   <style>
     :root {
-      --bg: #f8f2ea;
+      --bg: #f7f2ea;
+      --paper: #fffdf9;
       --text: #2d2621;
       --sub: #6b625a;
       --line: #ead8c8;
-      --road: #d9c4ab;
-      --road-2: #ccb190;
-      --block: #fff8f0;
-      --block-line: #efd9c7;
-      --open: #2f9e44;
-      --closed: #8b837b;
-      --check: #c77d00;
+      --road: #efe2cf;
+      --road-edge: #d0b18d;
+      --water: #dff2fb;
+      --water-edge: #9ecce2;
+      --park: #e4f3df;
+      --park-edge: #9bc390;
+      --rail: #e7ecf8;
+      --rail-edge: #a9b8d8;
+      --hospital: #fff0f0;
+      --hospital-edge: #ddb0b0;
+      --shop-bg: rgba(255,255,255,0.95);
+      --shop-line: #ebd9c8;
+      --shadow: 0 10px 24px rgba(77, 43, 18, 0.08);
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
-    .app { max-width: 430px; margin: 0 auto; padding: 18px 14px 40px; }
-    h1 { font-size: 24px; margin: 0 0 8px; }
-    .lead { color: var(--sub); font-size: 13px; line-height: 1.6; margin: 0 0 14px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+    .lead {
+      margin: 0 0 14px;
+      color: var(--sub);
+      font-size: 13px;
+      line-height: 1.7;
+    }
     .map-wrap {
-      position: relative; width: 100%; height: 860px; background: linear-gradient(180deg, #fffaf4, #fff2e5);
-      border: 1px solid var(--line); border-radius: 24px; overflow: hidden; box-shadow: 0 14px 36px rgba(84, 48, 21, 0.08);
+      position: relative;
+      width: 100%;
+      height: 960px;
+      background: linear-gradient(180deg, #fffaf4, #fff3e8);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
-    .block { position: absolute; background: var(--block); border: 1px solid var(--block-line); border-radius: 16px; }
-    .road { position: absolute; background: linear-gradient(180deg, var(--road), var(--road-2)); border: 2px solid rgba(116, 83, 53, 0.14); border-radius: 20px; }
-    .road::after { content: ''; position: absolute; inset: 7px; border-radius: 14px; border: 2px dashed rgba(255,255,255,0.42); }
+    .ground-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.22) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .water {
+      position: absolute;
+      right: -2%;
+      top: 8%;
+      width: 22%;
+      height: 84%;
+      background: linear-gradient(180deg, var(--water), #cfeaf6);
+      border-left: 3px solid var(--water-edge);
+      border-radius: 30px 0 0 30px;
+    }
+    .water-label {
+      position: absolute;
+      right: 4%;
+      top: 18%;
+      writing-mode: vertical-rl;
+      font-size: 12px;
+      font-weight: 800;
+      color: #4f7a8e;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(158,204,226,0.9);
+      padding: 8px 6px;
+      border-radius: 14px;
+    }
+    .road {
+      position: absolute;
+      background: var(--road);
+      border: 2px solid var(--road-edge);
+      border-radius: 22px;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.38);
+    }
     .road.main {
-      left: 37%; top: 12%; width: 22%; height: 70%; transform: rotate(24deg); transform-origin: center center;
+      left: 35%;
+      top: 12%;
+      width: 17%;
+      height: 73%;
+      transform: rotate(23deg);
+      transform-origin: center center;
     }
-    .road.vertical-east { left: 70%; top: 18%; width: 12%; height: 68%; }
-    .road.cross-a { left: 12%; top: 17%; width: 62%; height: 5%; transform: rotate(-28deg); }
-    .road.cross-b { left: 18%; top: 33%; width: 52%; height: 5%; transform: rotate(-32deg); }
-    .road.cross-c { left: 16%; top: 50%; width: 60%; height: 5%; transform: rotate(-24deg); }
-    .road.cross-d { left: 20%; top: 66%; width: 58%; height: 5%; transform: rotate(-18deg); }
-    .road.cross-e { left: 28%; top: 78%; width: 48%; height: 5%; transform: rotate(-10deg); }
+    .road.branch-a {
+      left: 9%; top: 18%; width: 44%; height: 4.6%; transform: rotate(-24deg);
+    }
+    .road.branch-b {
+      left: 14%; top: 30%; width: 47%; height: 4.4%; transform: rotate(-24deg);
+    }
+    .road.branch-c {
+      left: 12%; top: 44%; width: 51%; height: 4.4%; transform: rotate(-18deg);
+    }
+    .road.branch-d {
+      left: 16%; top: 57%; width: 48%; height: 4.2%; transform: rotate(-16deg);
+    }
+    .road.branch-e {
+      left: 23%; top: 71%; width: 42%; height: 4.2%; transform: rotate(-10deg);
+    }
+    .road.bridge-1,
+    .road.bridge-2 {
+      left: 57%;
+      width: 23%;
+      height: 3.2%;
+      border-radius: 14px;
+      background: #f4e2cd;
+    }
+    .road.bridge-1 { top: 40%; }
+    .road.bridge-2 { top: 62%; }
+    .road.side-east {
+      left: 67%;
+      top: 24%;
+      width: 9%;
+      height: 54%;
+      border-radius: 16px;
+    }
+    .rail {
+      position: absolute;
+      left: 58%;
+      top: 5%;
+      width: 24%;
+      height: 9%;
+      background: linear-gradient(180deg, var(--rail), #dde6f8);
+      border: 1px solid var(--rail-edge);
+      border-radius: 20px;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.35);
+    }
+    .landmark {
+      position: absolute;
+      border-radius: 18px;
+      padding: 10px 10px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid #e8d9cb;
+      box-shadow: 0 6px 16px rgba(77, 43, 18, 0.05);
+      font-size: 11px;
+      line-height: 1.45;
+      color: #5f4c3f;
+    }
+    .landmark strong { display: block; margin-bottom: 3px; font-size: 11px; }
+    .park {
+      background: linear-gradient(180deg, var(--park), #eef8ea);
+      border-color: var(--park-edge);
+    }
+    .station {
+      background: linear-gradient(180deg, var(--rail), #f2f5fb);
+      border-color: var(--rail-edge);
+    }
+    .hospital {
+      background: linear-gradient(180deg, var(--hospital), #fff7f7);
+      border-color: var(--hospital-edge);
+    }
     .zone-label {
-      position: absolute; font-size: 11px; font-weight: 800; color: #7b593f; background: rgba(255,255,255,0.92);
-      border: 1px solid #edd3be; padding: 6px 10px; border-radius: 999px;
+      position: absolute;
+      font-size: 11px;
+      font-weight: 800;
+      color: #775a43;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid #ead7c4;
+      padding: 6px 10px;
+      border-radius: 999px;
     }
-    .zone-1 { left: 56%; top: 9%; }
-    .zone-2 { left: 40%; top: 43%; }
-    .zone-3 { left: 48%; top: 79%; }
+    .zone-1 { left: 51%; top: 14%; }
+    .zone-2 { left: 37%; top: 42%; }
+    .zone-3 { left: 44%; top: 73%; }
     .shop {
-      position: absolute; width: 104px; min-height: 38px; padding: 7px 8px; border-radius: 12px; background: rgba(255,255,255,0.96);
-      border: 1px solid #ead8c8; box-shadow: 0 6px 12px rgba(84, 48, 21, 0.08); font-size: 10px; line-height: 1.35; text-align: left;
+      position: absolute;
+      width: 108px;
+      min-height: 40px;
+      padding: 8px 8px;
+      border-radius: 14px;
+      background: var(--shop-bg);
+      border: 1px solid var(--shop-line);
+      box-shadow: 0 6px 14px rgba(77, 43, 18, 0.07);
+      font-size: 10px;
+      line-height: 1.35;
+      color: #5a4638;
+      text-align: left;
     }
-    .shop::before { content: ''; position: absolute; top: 50%; width: 16px; border-top: 2px dashed #c9a27e; }
+    .shop::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 16px;
+      border-top: 2px dashed #c6a17b;
+    }
     .shop.left::before { right: -16px; }
     .shop.right::before { left: -16px; }
-    .shop strong { display: block; font-size: 10px; margin-bottom: 2px; }
-    .open { border-color: rgba(47,158,68,0.35); }
-    .closed { border-color: rgba(139,131,123,0.35); }
-    .maybe { border-color: rgba(199,125,0,0.35); }
-    .legend { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    .legend span { font-size: 11px; color: var(--sub); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; }
+    .shop strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 10px;
+      color: #49372c;
+    }
+    .legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .legend span {
+      font-size: 11px;
+      color: var(--sub);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
   </style>
 </head>
 <body>
   <div class="app">
     <h1>商店街地図プロトタイプ</h1>
-    <p class="lead">Googleマップのスクショを見ながら、主通路を斜め軸にして枝道を追加した試作です。まだ仮ですが、一本道ではなく複数の道と店の並びを前提にしています。</p>
+    <p class="lead">サンプルの案内図イラストを参考に、Googleマップのスクショを下敷きにして「地形は実地寄り・見た目は案内図寄り」に描き直した試作です。</p>
     <div class="map-wrap" id="mapWrap">
-      <div class="block" style="left:4%;top:8%;width:24%;height:18%"></div>
-      <div class="block" style="left:8%;top:30%;width:20%;height:20%"></div>
-      <div class="block" style="left:7%;top:54%;width:23%;height:18%"></div>
-      <div class="block" style="left:12%;top:76%;width:24%;height:16%"></div>
-      <div class="block" style="left:66%;top:8%;width:26%;height:16%"></div>
-      <div class="block" style="left:63%;top:30%;width:29%;height:16%"></div>
-      <div class="block" style="left:61%;top:50%;width:31%;height:16%"></div>
-      <div class="block" style="left:60%;top:70%;width:30%;height:20%"></div>
-      <div class="block" style="left:31%;top:24%;width:18%;height:12%"></div>
-      <div class="block" style="left:30%;top:60%;width:18%;height:14%"></div>
+      <div class="ground-grid"></div>
+      <div class="water"></div>
+      <div class="water-label">河川・橋のある側</div>
 
       <div class="road main"></div>
-      <div class="road vertical-east"></div>
-      <div class="road cross-a"></div>
-      <div class="road cross-b"></div>
-      <div class="road cross-c"></div>
-      <div class="road cross-d"></div>
-      <div class="road cross-e"></div>
+      <div class="road branch-a"></div>
+      <div class="road branch-b"></div>
+      <div class="road branch-c"></div>
+      <div class="road branch-d"></div>
+      <div class="road branch-e"></div>
+      <div class="road side-east"></div>
+      <div class="road bridge-1"></div>
+      <div class="road bridge-2"></div>
 
-      <div class="zone-label zone-1">入口付近</div>
+      <div class="rail"></div>
+
+      <div class="zone-label zone-1">入口寄り</div>
       <div class="zone-label zone-2">中央あたり</div>
-      <div class="zone-label zone-3">奥のほう</div>
+      <div class="zone-label zone-3">奥側</div>
+
+      <div class="landmark station" style="left:58%;top:4%;width:24%;">
+        <strong>駅方面</strong>
+        曳舟 / 京成曳舟 方向
+      </div>
+      <div class="landmark park" style="left:63%;top:47%;width:20%;">
+        <strong>京島南公園</strong>
+        地図の基準点
+      </div>
+      <div class="landmark hospital" style="left:9%;top:79%;width:22%;">
+        <strong>病院・医療施設側</strong>
+        ランドマーク候補
+      </div>
+      <div class="landmark park" style="left:8%;top:10%;width:19%;">
+        <strong>入口側の通り</strong>
+        商店街の入り口方向
+      </div>
+      <div class="landmark" style="left:66%;top:80%;width:18%;">
+        <strong>八広方面</strong>
+        奥側の目印
+      </div>
+      <div class="landmark" style="left:8%;top:56%;width:18%;">
+        <strong>学校 / 神社側</strong>
+        左側ランドマーク
+      </div>
     </div>
     <div class="legend">
-      <span>緑: 営業中</span>
-      <span>灰: 営業時間外</span>
-      <span>黄: 要確認</span>
+      <span>先に案内図の地形を合わせる</span>
+      <span>次に店を道沿いに戻す</span>
+      <span>最後に本体サイトへ統合</span>
     </div>
   </div>
   <script>
     let shops = [];
     const mapWrap = document.getElementById('mapWrap');
-    fetch('./shops.json', { cache: 'no-store' }).then(r => r.json()).then(data => { shops = data; render(); });
-    function stateClass(shop) {
-      if (!shop.hours || shop.hours.includes('調査中') || (shop.note || '').includes('要確認')) return 'maybe';
-      return 'closed';
-    }
+    fetch('./shops.json', { cache: 'no-store' }).then(r => r.json()).then(data => {
+      shops = data;
+      render();
+    });
     function render() {
       shops.forEach(shop => {
         if (shop.mapX == null || shop.mapY == null) return;
         const el = document.createElement('button');
-        el.className = `shop ${shop.mapLabelSide || 'right'} ${stateClass(shop)}`;
-        el.style.left = `calc(${shop.mapX}% - 52px)`;
+        el.className = `shop ${shop.mapLabelSide || 'right'}`;
+        el.style.left = `calc(${shop.mapX}% - 54px)`;
         el.style.top = `calc(${shop.mapY}% - 18px)`;
         el.innerHTML = `<strong>${shop.name}</strong><span>${shop.genre}</span>`;
         el.title = `${shop.name}\n${shop.hours}\n${shop.closed}`;
