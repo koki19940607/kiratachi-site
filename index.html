@@ -326,6 +326,47 @@
       flex-direction: column;
       justify-content: space-between;
     }
+    .zone-strip {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr 1fr;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .zone-card {
+      border: 1px solid rgba(230,181,122,0.55);
+      background: rgba(255,255,255,0.78);
+      border-radius: 16px;
+      padding: 12px 10px;
+      text-align: left;
+      color: #78573d;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .zone-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #5f442f;
+    }
+    .zone-card.active {
+      background: linear-gradient(135deg, rgba(228,109,58,0.18), rgba(243,177,95,0.22));
+      border-color: rgba(228,109,58,0.55);
+    }
+    .zone-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .zone-pill {
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(230,181,122,0.55);
+      color: #78573d;
+    }
     .map-mini-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -585,11 +626,18 @@
             <strong>商店街のどこにあるか、ざっくり把握する</strong>
             <p class="lead" style="margin-top:8px;">本番では商店街マップ画像や、店の位置ピン、回遊しやすい導線を入れる想定です。今は各カードの「地図を見る」から外部マップへ移動します。</p>
           </div>
+          <div class="zone-strip" id="zoneStrip">
+            <button class="zone-card" data-area="入口付近" onclick="filterByArea('入口付近')"><strong>入口付近</strong>最初に立ち寄りやすいゾーン</button>
+            <button class="zone-card" data-area="中央あたり" onclick="filterByArea('中央あたり')"><strong>中央あたり</strong>惣菜やパンを見比べやすいゾーン</button>
+            <button class="zone-card" data-area="奥のほう" onclick="filterByArea('奥のほう')"><strong>奥のほう</strong>食事系や掘り出し候補を見るゾーン</button>
+          </div>
+          <div class="zone-links">
+            <button class="zone-pill" onclick="showAllAreas()">全ゾーンを見る</button>
+            <button class="zone-pill" onclick="scrollToShops()">ゾーンの店を下で見る</button>
+          </div>
           <div class="map-mini-grid">
-            <div class="map-mini"><strong>入口付近</strong><br>最初に立ち寄りやすいゾーン</div>
-            <div class="map-mini"><strong>中央あたり</strong><br>惣菜やパンを見比べやすいゾーン</div>
-            <div class="map-mini"><strong>奥のほう</strong><br>食事系や掘り出し候補を見るゾーン</div>
-            <div class="map-mini"><strong>次の改善候補</strong><br>地図画像・現在地導線・回遊提案</div>
+            <div class="map-mini"><strong>使い方</strong><br>ゾーンを押すと、そのエリアの店に絞り込めます。</div>
+            <div class="map-mini"><strong>次の改善候補</strong><br>地図画像・現在地導線・店のピン表示</div>
           </div>
         </div>
       </div>
@@ -636,6 +684,7 @@
 
     let currentGenre = 'すべて';
     let currentQuickFilter = 'none';
+    let currentArea = 'all';
     let openOnly = true;
 
     const genrePills = document.getElementById('genrePills');
@@ -645,6 +694,7 @@
     const openToggleNote = document.getElementById('openToggleNote');
     const openOnlyButton = document.getElementById('openOnlyButton');
     const allShopsButton = document.getElementById('allShopsButton');
+    const zoneStrip = document.getElementById('zoneStrip');
     const randomModal = document.getElementById('randomModal');
     const randomLoading = document.getElementById('randomLoading');
     const garaponBall = document.getElementById('garaponBall');
@@ -750,8 +800,9 @@
       return shops.filter(shop => {
         const byGenre = currentGenre === 'すべて' || shop.genre === currentGenre;
         const byQuick = quickFilter.match(shop);
+        const byArea = currentArea === 'all' || shop.area === currentArea;
         const byOpen = !openOnly || getShopState(shop).key === 'open';
-        return byGenre && byQuick && byOpen;
+        return byGenre && byQuick && byArea && byOpen;
       });
     }
 
@@ -764,6 +815,13 @@
       allShopsButton.classList.toggle('secondary-active', !openOnly);
       openOnlyButton.setAttribute('aria-pressed', String(openOnly));
       allShopsButton.setAttribute('aria-pressed', String(!openOnly));
+    }
+
+    function updateZoneUI() {
+      if (!zoneStrip) return;
+      zoneStrip.querySelectorAll('.zone-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.area === currentArea);
+      });
     }
 
     function getReasonChips(shop) {
@@ -865,12 +923,29 @@
       setOpenFilter(false);
     }
 
+    function filterByArea(area) {
+      currentArea = area;
+      updateZoneUI();
+      renderShops();
+      scrollToShops();
+    }
+
+    function showAllAreas() {
+      currentArea = 'all';
+      updateZoneUI();
+      renderShops();
+    }
+
     function scrollToGenres() {
       document.getElementById('genres').scrollIntoView({ behavior: 'smooth' });
     }
 
     function scrollToMap() {
       document.getElementById('mapSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToShops() {
+      shopList.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function closeRandomModal(event) {
@@ -911,6 +986,7 @@
         renderGenres();
         renderQuickFilters();
         updateOpenToggleUI();
+        updateZoneUI();
         renderShops();
       } catch (error) {
         resultCount.textContent = '読込失敗';
